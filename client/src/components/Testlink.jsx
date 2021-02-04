@@ -1,16 +1,17 @@
-import React from 'react';
-import Axios from 'axios'
+import React, {useCallback, useState} from 'react';
 
-function Testlink() {
-  Axios({
-    method: "GET",
-    url: "http://localhost:9000/testbackend",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(res => {
-    console.log(res.data.message);
-  });
+export default ({ messages = [], onCreateNewMessage }) => {
+
+  const [newMessage, setNewMessage] = useState('');
+
+  const onNewMessageChange = useCallback((event) => {
+    setNewMessage(event.target.value);
+  }, []);
+
+  const onAddMessage = useCallback((event) => {
+    event.preventDefault();
+    on
+  })
 
   return (
     <div>
@@ -19,5 +20,3 @@ function Testlink() {
     </div>
   )
 }
-
-export default Testlink;
