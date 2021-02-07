@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const Range = require('./models/range.model.js');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
