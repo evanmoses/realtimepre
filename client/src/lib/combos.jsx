@@ -7,7 +7,7 @@ const cardValue = (c) => {
   return copy.indexOf(c) + 2;
 }
 
-// make of combos my mapping each card to each other card
+// make combos my mapping each card to each other card
 const lines = cards.map((x,y,z) => {
   const lineArray = z.map(a => a + x);
   return lineArray;

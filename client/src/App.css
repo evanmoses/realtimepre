@@ -1,38 +1,141 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  padding: 10px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: #d4d4d4;
+}
+
+.rangebox {
+  background-color: #414141;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.rangecontainer {
+  display: flex;
+  width: 326px;
+  flex-wrap: wrap;
+  border-top: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
+  background-color: #525252;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.rangechart {
+  width: 25px;
+  height: 25px;
+  border-right: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rangechart > span {
+  font-size: 0.5rem;
+}
+
+.dashbox {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashcontainer {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 326px;
+}
+
+.button-container {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-group {
+  margin-bottom: 15px;
+}
+
+.button-label {
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  margin-left: 6px;
+  margin-bottom: 6px;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.selecta {
+  background-color: #ca3e47;
+  border-radius: 5px;
+  margin: 6px;
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.selecta:hover, .selecta:active, .selecta:focus {
+  background-color: #702227;
+}
+
+.freq-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.bar-container {
+  margin: 0 20px;
+}
+
+.bar {
+  height: 80px;
+  background-color: #90cf3e;
+}
+
+.frequency {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.action {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.randomizer {
+  font-size: 50px;
+}
+
+.action-large {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.submit-btn {
+  background-color: #ca3e47;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 0.8rem;
 }
