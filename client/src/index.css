@@ -22,3 +22,10 @@ button, input[type="submit"], input[type="reset"] {
   cursor: pointer;
   outline: inherit;
 }
+
+input, input:focus {
+  background: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}

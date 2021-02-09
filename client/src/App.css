@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+button {
+  user-select: none;
+}
+
 .App {
   text-align: center;
   padding: 10px;
@@ -60,7 +64,7 @@
 }
 
 .button-container {
-  margin: 10px;
+  margin: 0 10px;
   display: flex;
   flex-direction: column;
 }
@@ -99,6 +103,7 @@
 }
 
 .freq-container {
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -110,8 +115,7 @@
 }
 
 .bar {
-  height: 80px;
-  background-color: #90cf3e;
+  height: 100px;
 }
 
 .frequency {
@@ -124,6 +128,18 @@
   font-weight: 500;
 }
 
+.freq-input {
+  font-size: 18px;
+}
+
+.action-btn {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
 .randomizer {
   font-size: 50px;
 }
@@ -133,9 +149,32 @@
   font-weight: 500;
 }
 
+.set-freq {
+  width: 40px;
+  font-size: 20px;
+  background-color: #414141;
+  color: #d4d4d4;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.set-freq:focus {
+  background-color: #414141;
+  box-shadow: 0 0 0 2px #525252;
+}
+
+.set-freq::placeholder {
+  color: #d4d4d4;
+}
+
 .submit-btn {
-  background-color: #ca3e47;
+  background-color: #414141;
   border-radius: 5px;
   padding: 10px;
-  font-size: 0.8rem;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.submit-btn:hover, .submit-btn:active {
+  background-color: #525252;
 }

@@ -1,30 +1,31 @@
- import React from 'react';
+import React from 'react';
 
- function FreqSelect() {
-   return (
-     <div className="freq-container">
+function FreqSelect() {
+  return (
+    <div className="freq-container">
       <div className="bar-container">
-        <div className="bar"></div>
-        <div className="frequency">25%</div>
-        <div className="action">CALL</div>
-      </div>
-      <div className="bar-container">
-        <div className="bar"></div>
-        <div className="frequency">25%</div>
-        <div className="action">RAISE</div>
+        <div className="freq-input">
+          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+        </div>
+        <button className="action-btn" style={{backgroundColor: "#90cf3e"}}>CALL</button>
       </div>
       <div className="bar-container">
-        <div className="bar"></div>
-        <div className="frequency">25%</div>
-        <div className="action">FOLD</div>
+        <div className="freq=input">
+          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+        </div>
+        <button className="action-btn" style={{backgroundColor: "#cf3eca"}}>RAISE</button>
       </div>
-      <div  className="bar-container">
-        <div className="randomizer">85</div>
-        <div className="action-large">FOLD</div>
+      <div className="bar-container">
+        <div className="freq-input">
+          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+        </div>
+        <button className="action-btn" style={{backgroundColor: "#3ec0cf"}}>FOLD</button>
       </div>
+      <div className="bar-container">
+        <button className="submit-btn">SUBMIT</button>
+      </div>
+    </div>
+  );
+}
 
-     </div>
-   );
- }
-
- export default FreqSelect;
+export default FreqSelect;
