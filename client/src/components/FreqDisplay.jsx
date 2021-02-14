@@ -4,17 +4,17 @@
    return (
      <div className="freq-container">
       <div className="bar-container">
-        <div className="bar" style={{backgroundColor: "#90cf3e"}}></div>
+        <div className="bar" style={{backgroundColor: "#aecf84"}}></div>
         <div className="frequency">25%</div>
         <div className="action">CALL</div>
       </div>
       <div className="bar-container">
-        <div className="bar" style={{backgroundColor: "#cf3eca"}}></div>
+        <div className="bar" style={{backgroundColor: "#d184ce"}}></div>
         <div className="frequency">25%</div>
         <div className="action">RAISE</div>
       </div>
       <div className="bar-container">
-        <div className="bar" style={{backgroundColor: "#3ec0cf"}}></div>
+        <div className="bar" style={{backgroundColor: "#85c2c9"}}></div>
         <div className="frequency">25%</div>
         <div className="action">FOLD</div>
       </div>

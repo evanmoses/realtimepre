@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.schema;
-
-const rangeSchema = new Schema({
+const rangeSchema = new mongoose.Schema({
   heroPos: String,
   vilPos: String,
   facing: String,

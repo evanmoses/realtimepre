@@ -8,8 +8,8 @@ function Dash() {
     <div className="dashbox">
       <div className="dash-container">
         <Buttons />
-        {/* <FreqDisplay /> */}
-        <FreqSelect />
+        {/* <FreqSelect /> */}
+        <FreqDisplay />
 
       </div>
     </div>
