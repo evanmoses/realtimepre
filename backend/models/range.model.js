@@ -8,8 +8,9 @@ const rangeSchema = new mongoose.Schema({
     hand: String,
     foldFreq: Number,
     callFreq: Number,
-    raiseFreq: Number,
-    jamFreq: Number,
+    raise: [{
+      freq: Number, size: Number,
+    }],
   }],
 });
 
