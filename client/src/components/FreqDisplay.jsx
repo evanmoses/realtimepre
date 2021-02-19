@@ -22,12 +22,7 @@ function FreqDisplay() {
             <div className="bar" style={{backgroundColor: "#d184ce",  width: '75px'}}></div>
             <div className="frequency">25%</div>
           </div>
-
         </div>
-      </div>
-      <div className='freq-random'>
-        <div className="randomizer">85</div>
-        <div className="action-large">FOLD</div>
       </div>
     </div>
   );

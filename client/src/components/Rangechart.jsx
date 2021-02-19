@@ -13,6 +13,11 @@ function Rangechart() {
             </div>
           )
         })}
+
+      </div>
+      <div className='freq-random'>
+        <div className="randomizer">85</div>
+        <div className="action-large">FOLD</div>
       </div>
     </div>
   );
