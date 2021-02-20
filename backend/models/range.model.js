@@ -4,6 +4,7 @@ const rangeSchema = new mongoose.Schema({
   heroPos: String,
   vilPos: String,
   facing: String,
+  stackDepth: Number,
   betRange: [{
     hand: String,
     foldFreq: Number,
