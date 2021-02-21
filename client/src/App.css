@@ -78,7 +78,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .dashcontainer {
@@ -133,7 +133,6 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  transform: translateX(-30px);
 }
 
 .action-col {
