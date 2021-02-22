@@ -12,16 +12,22 @@ function App() {
 
   const [displayActive, setDisplay] = useState(true);
 
-  const setSelect = () => setDisplay(false);
-  const setView = () => setDisplay(true);
-
-
+  const handleDisplayClick = event => {
+    const value = (event.target.value === "true")
+    setDisplay(value);
+  }
 
   return (
     <MainContainer>
       <AppRow>
-        <DispButton onClick={setSelect}>Create Range</DispButton>
-        <DispButton onClick={setView}>Display Range</DispButton>
+        <ButtonLabel>
+          <DispButton type='radio' name='radio' value='true' checked={displayActive===true} onClick={handleDisplayClick} />
+          <span>Display Range</span>
+        </ButtonLabel>
+        <ButtonLabel>
+          <DispButton type='radio'  name='radio' value='false' checked={displayActive===false} onClick={handleDisplayClick} />
+          <span>Create Range</span>
+        </ButtonLabel>
       </AppRow>
       <AppRow>
         <Rangechart displayActive={displayActive} />
@@ -44,16 +50,36 @@ const AppRow = styled.div`
   justify-content: center;
 `;
 
-const DispButton = styled.button`
-  border: 1px solid #d4d4d4;
-  height: 30px;
-  width: 150px;
-  line-height: 10px;
+const ButtonLabel = styled.label`
+  & > span {
+    display: inline-block;
+    border: 1px solid #d4d4d4;
+    margin: 0;
+    height: 30px;
+    width: 150px;
+    line-height: 30px;
+    text-align: center;
 
-  &:hover,
-  &:active,
-  &:focus {
+    @media (max-width: 420px) {
+      width: 45px;
+    }
+  }
+
+  &:hover > span,
+  &:active > span,
+  &:focus > span
+  &:checked {
     background-color: #702227;
+    border: 1px solid #d4d4d4;
+  }
+`;
+
+const DispButton = styled.input`
+  display: none;
+
+  &:checked + span {
+    background-color: #702227;
+    border: 1px solid #d4d4d4;
   }
 `;
 

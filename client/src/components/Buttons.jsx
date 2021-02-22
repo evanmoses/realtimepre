@@ -99,11 +99,11 @@ function Buttons() {
         </ButtonLabel>
         <ButtonLabel>
           <CheckButton type='radio' name='action' value='4BET' checked={facingAction==='4BET'} onClick={handleActionChange} />
-          <span>N/A</span>
+          <span>4BET</span>
         </ButtonLabel>
         <ButtonLabel>
-          <CheckButton type='radio' name='action' value='4BET' checked={facingAction==='JAM'} onClick={handleActionChange} />
-          <span>4BET</span>
+          <CheckButton type='radio' name='action' value='JAM' checked={facingAction==='JAM'} onClick={handleActionChange} />
+          <span>JAM</span>
         </ButtonLabel>
       </ButtonGroup>
     </ButtonContainer>
