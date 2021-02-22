@@ -1,11 +1,38 @@
-import React, {useState} from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components/macro';
+
+import './App.css';
+
 import Testlink from './components/Testlink.jsx'
 import Rangechart from './components/Rangechart.jsx'
 import Dash from './components/Dash.jsx'
-import axios from 'axios';
-import './App.css';
 
+
+const MainContainer = styled.div`
+  /* stylelint-disable */
+  text-align: center;
+  padding: 10px;
+  color: #d4d4d4;
+`;
+
+const AppRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const DispButton = styled.button`
+  border: 1px solid #d4d4d4;
+  height: 30px;
+  width: 150px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #702227;
+  }
+`;
 
 function App() {
 
@@ -15,15 +42,18 @@ function App() {
   const setView = () => setDisplay(true);
 
 
+
   return (
-    <div className="App">
-      <div className="dash-container">
-        <button onClick={setSelect} className='selecta'>Select</button>
-        <button onClick={setView} className="selecta">Display</button>
-      </div>
-      <Rangechart displayActive={displayActive}/>
-      <Dash displayActive={displayActive}/>
-    </div>
+    <MainContainer>
+      <AppRow>
+        <DispButton onClick={setSelect}>Create Range</DispButton>
+        <DispButton onClick={setView}>Display</DispButton>
+      </AppRow>
+      <AppRow>
+        <Rangechart displayActive={displayActive} />
+        <Dash displayActive={displayActive} />
+      </AppRow>
+    </MainContainer>
   );
 }
 

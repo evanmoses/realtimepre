@@ -1,4 +1,17 @@
 import React from 'react';
+import styled from 'styled-components/macro';
+
+const CheckButton = styled.button`
+  border: 1px solid #d4d4d4;
+  height: 30px;
+  width: 60px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #702227;
+  }
+`;
 
 function Buttons() {
   return (
@@ -6,34 +19,34 @@ function Buttons() {
       <div className="button-group">
         <div className="button-label">Hero Position</div>
         <div className="button-row">
-          <button className="selecta">UTG</button>
-          <button className="selecta">HJ</button>
-          <button className="selecta">CO</button>
-          <button className="selecta">BTN</button>
-          <button className="selecta">SB</button>
-          <button className="selecta">BB</button>
+          <CheckButton>UTG</CheckButton>
+          <CheckButton>HJ</CheckButton>
+          <CheckButton>CO</CheckButton>
+          <CheckButton>BTN</CheckButton>
+          <CheckButton>SB</CheckButton>
+          <CheckButton>BB</CheckButton>
         </div>
       </div>
       <div className="button-group">
         <div className="button-label">Villain Position</div>
         <div className="button-row">
-          <button className="selecta">UTG</button>
-          <button className="selecta">HJ</button>
-          <button className="selecta">CO</button>
-          <button className="selecta">BTN</button>
-          <button className="selecta">SB</button>
-          <button className="selecta">BB</button>
+          <CheckButton>UTG</CheckButton>
+          <CheckButton>HJ</CheckButton>
+          <CheckButton>CO</CheckButton>
+          <CheckButton>BTN</CheckButton>
+          <CheckButton>SB</CheckButton>
+          <CheckButton>BB</CheckButton>
         </div>
       </div>
       <div className="button-group">
         <div className="button-label">Facing Action</div>
         <div className="button-row">
-          <button className="selecta">N/A</button>
-          <button className="selecta">Limp</button>
-          <button className="selecta">Raise</button>
-          <button className="selecta">3bet</button>
-          <button className="selecta">4bet</button>
-          <button className="selecta">Jam</button>
+          <CheckButton>N/A</CheckButton>
+          <CheckButton>Limp</CheckButton>
+          <CheckButton>Raise</CheckButton>
+          <CheckButton>3bet</CheckButton>
+          <CheckButton>4bet</CheckButton>
+          <CheckButton>Jam</CheckButton>
         </div>
       </div>
     </div>
