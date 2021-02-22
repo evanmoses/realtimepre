@@ -1,7 +1,7 @@
 
 .rangebox {
   background-color: #414141;
-  margin: 10px 30px;
+  margin: 10px;
   padding: 10px;
   border-radius: 5px;
   position: relative;
@@ -57,60 +57,18 @@
 }
 
 .dashbox {
-  margin: 0 10px;
   padding: 10px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .dashcontainer {
   margin: 10px;
   display: flex;
   flex-direction: column;
-  max-width: 326px;
-}
-
-.button-container {
-  margin: 0 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.button-group {
-  margin-bottom: 15px;
-}
-
-.button-label {
-  font-size: 14px;
-  font-weight: 500;
-  width: 100%;
-  text-align: left;
-  margin-left: 6px;
-  margin-bottom: 6px;
-}
-
-.button-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.selecta {
-  background-color: #ca3e47;
-  border-radius: 5px;
-  margin: 6px;
-  width: 40px;
-  height: 20px;
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.selecta:hover,
-.selecta:active,
-.selecta:focus {
-  background-color: #702227;
 }
 
 .freq-container {

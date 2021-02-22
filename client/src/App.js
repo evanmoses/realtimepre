@@ -8,6 +8,28 @@ import Testlink from './components/Testlink.jsx'
 import Rangechart from './components/Rangechart.jsx'
 import Dash from './components/Dash.jsx'
 
+function App() {
+
+  const [displayActive, setDisplay] = useState(true);
+
+  const setSelect = () => setDisplay(false);
+  const setView = () => setDisplay(true);
+
+
+
+  return (
+    <MainContainer>
+      <AppRow>
+        <DispButton onClick={setSelect}>Create Range</DispButton>
+        <DispButton onClick={setView}>Display Range</DispButton>
+      </AppRow>
+      <AppRow>
+        <Rangechart displayActive={displayActive} />
+        <Dash displayActive={displayActive} />
+      </AppRow>
+    </MainContainer>
+  );
+}
 
 const MainContainer = styled.div`
   /* stylelint-disable */
@@ -26,6 +48,7 @@ const DispButton = styled.button`
   border: 1px solid #d4d4d4;
   height: 30px;
   width: 150px;
+  line-height: 10px;
 
   &:hover,
   &:active,
@@ -33,28 +56,5 @@ const DispButton = styled.button`
     background-color: #702227;
   }
 `;
-
-function App() {
-
-  const [displayActive, setDisplay] = useState(true);
-
-  const setSelect = () => setDisplay(false);
-  const setView = () => setDisplay(true);
-
-
-
-  return (
-    <MainContainer>
-      <AppRow>
-        <DispButton onClick={setSelect}>Create Range</DispButton>
-        <DispButton onClick={setView}>Display</DispButton>
-      </AppRow>
-      <AppRow>
-        <Rangechart displayActive={displayActive} />
-        <Dash displayActive={displayActive} />
-      </AppRow>
-    </MainContainer>
-  );
-}
 
 export default App;
