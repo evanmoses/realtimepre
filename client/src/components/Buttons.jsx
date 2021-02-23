@@ -6,6 +6,9 @@ function Buttons() {
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
 
+  const positionArray = ['UTG', 'HJ', 'CO', 'BTN', 'SB', 'BB']
+  const actionArray = ['N/A', 'LIMP', 'RAISE', '3BET', '4BET', 'JAM']
+
   const handleHeroChange = event => {
     const value = event.target.value;
     setHeroPosition(value);
@@ -27,84 +30,36 @@ function Buttons() {
     <ButtonContainer>
       <ButtonGroup>
         <ButtonHeading>Hero Position</ButtonHeading>
-        <ButtonLabel>
-          <CheckButton type='radio' name='hero' value='UTG' checked={heroPosition==='UTG'} onClick={handleHeroChange} />
-          <span>UTG</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio'  name='hero' value='HJ' checked={heroPosition==='HJ'} onClick={handleHeroChange} />
-          <span>HJ</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio'  name='hero' value='CO' checked={heroPosition==='CO'} onClick={handleHeroChange} />
-          <span>CO</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio'  name='hero' value='BTN' checked={heroPosition==='BTN'} onClick={handleHeroChange} />
-          <span>BTN</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio'  name='hero' value='SB' checked={heroPosition==='SB'} onClick={handleHeroChange} />
-          <span>SB</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio'  name='hero' value='BB' checked={heroPosition==='BB'} onClick={handleHeroChange} />
-          <span>BB</span>
-        </ButtonLabel>
+        {positionArray.map(position => {
+          return (
+            <ButtonLabel>
+              <CheckButton type='radio' name='hero' value={position} checked={heroPosition===position} onClick={handleHeroChange} />
+              <span>{position}</span>
+            </ButtonLabel>
+          )
+        })}
       </ButtonGroup>
       <ButtonGroup>
         <ButtonHeading>Villain Position</ButtonHeading>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='UTG' checked={villainPosition==='UTG'} onClick={handleVillainChange} />
-          <span>UTG</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='HJ' checked={villainPosition==='HJ'} onClick={handleVillainChange} />
-          <span>HJ</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='CO' checked={villainPosition==='CO'} onClick={handleVillainChange} />
-          <span>CO</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='BTN' checked={villainPosition==='BTN'} onClick={handleVillainChange} />
-          <span>BTN</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='SB' checked={villainPosition==='SB'} onClick={handleVillainChange} />
-          <span>SB</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='villain' value='BB' checked={villainPosition==='BB'} onClick={handleVillainChange} />
-          <span>BB</span>
-        </ButtonLabel>
+        {positionArray.map(position => {
+          return (
+            <ButtonLabel>
+              <CheckButton type='radio' name='villain' value={position} checked={villainPosition===position} onClick={handleVillainChange} />
+              <span>{position}</span>
+            </ButtonLabel>
+          )
+        })}
       </ButtonGroup>
       <ButtonGroup>
         <ButtonHeading>Facing Action</ButtonHeading>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='N/A' checked={facingAction==='N/A'} onClick={handleActionChange} />
-          <span>N/A</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='LIMP' checked={facingAction==='LIMP'} onClick={handleActionChange} />
-          <span>LIMP</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='RAISE' checked={facingAction==='RAISE'} onClick={handleActionChange} />
-          <span>RAISE</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='3BET' checked={facingAction==='3BET'} onClick={handleActionChange} />
-          <span>3BET</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='4BET' checked={facingAction==='4BET'} onClick={handleActionChange} />
-          <span>4BET</span>
-        </ButtonLabel>
-        <ButtonLabel>
-          <CheckButton type='radio' name='action' value='JAM' checked={facingAction==='JAM'} onClick={handleActionChange} />
-          <span>JAM</span>
-        </ButtonLabel>
+        {actionArray.map(action => {
+          return (
+            <ButtonLabel>
+              <CheckButton type='radio' name='action' value={action} checked={facingAction===action} onClick={handleActionChange} />
+              <span>{action}</span>
+            </ButtonLabel>
+          )
+        })}
       </ButtonGroup>
     </ButtonContainer>
   )
