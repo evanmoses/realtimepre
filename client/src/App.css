@@ -1,19 +1,4 @@
 
-.dashbox {
-  padding: 10px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.dashcontainer {
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
 .freq-container {
   display: flex;
   flex-direction: row;

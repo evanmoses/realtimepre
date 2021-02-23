@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'styled-components/macro';
+import styled from 'styled-components/macro';
 
 function ActionRandomizer(props) {
   const rollFreq = () => Math.ceil(Math.random() * 100);
@@ -21,10 +21,9 @@ const handleTextColor = color => {
   return "#d184ce";
 }
 
-const FreqRandom = styles.div`
+const FreqRandom = styled.div`
   background-color: rgba(64, 64, 64, 0.8);
-  width: 110px;
-  height: 110px;
+  padding: 25px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -35,23 +34,18 @@ const FreqRandom = styles.div`
   justify-content: center;
 ;`
 
-const RandomNum = styles.div`
+const RandomNum = styled.div`
   font-size: 50px;
   font-weight: 500;
   line-height: 50px;
   color: ${props => handleTextColor(props.action)};
 ;`
 
-
-const FreqAction = styles.div`
+const FreqAction = styled.div`
   font-size: 25px;
   font-weight: 500;
   line-height: 25px;
   color: ${props => handleTextColor(props.action)};
 ;`
-
-
-
-
 
 export default ActionRandomizer;

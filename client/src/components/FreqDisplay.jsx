@@ -2,7 +2,6 @@ import React from 'react';
 
 function FreqDisplay() {
   return (
-    <div>
       <div className="freq-container">
         <div className="action-col">
           <div className="action">FOLD</div>
@@ -24,7 +23,6 @@ function FreqDisplay() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
  export default FreqDisplay;

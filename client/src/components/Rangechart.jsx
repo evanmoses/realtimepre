@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
@@ -16,12 +16,12 @@ function Rangechart() {
         })}
 
       </RangeContainer>
-      <ActionRandomizer action='CALL'/>
+      <ActionRandomizer action='FOLD'/>
     </RangeBox>
   );
 }
 
-const RangeBox = styles.div`
+const RangeBox = styled.div`
   background-color: #414141;
   margin: 10px;
   padding: 10px;
@@ -29,7 +29,7 @@ const RangeBox = styles.div`
   position: relative;
 ;`
 
-const RangeContainer = styles.div`
+const RangeContainer = styled.div`
   display: flex;
   width: 391px;
   height: 391px;
@@ -39,7 +39,7 @@ const RangeContainer = styles.div`
   background-color: #525252;
 ;`
 
-const ComboSquare = styles.div`
+const ComboSquare = styled.div`
   width: 30px;
   height: 30px;
   border-right: 1px solid #d4d4d4;
