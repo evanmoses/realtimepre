@@ -5,26 +5,26 @@ import FreqSelect from './FreqSelect.jsx'
 function FreqDisplay(props) {
   return (
     <FreqContainer {...props}>
-    {!props.displayActive && <FreqSelect />}
+      {!props.displayActive && <FreqSelect />}
       <FreqBars>
         <ActionCol>
-          <div className="frequency">25%</div>
-          <div className="bar" style={{height:"50px", backgroundColor: "#85c2c9"}} />
-          <div className="action">FOLD</div>
+          <FreqText>25%</FreqText>
+          <Bar style={{height:"50px", backgroundColor: "#85c2c9"}} />
+          <ActionText>FOLD</ActionText>
         </ActionCol>
         <ActionCol>
-          <div className="frequency">50%</div>
-          <div className="bar" style={{height: "125px", backgroundColor: "#aecf84"}}></div>
-          <div className="action">CALL</div>
+          <FreqText>50%</FreqText>
+          <Bar style={{height: "125px", backgroundColor: "#aecf84"}} />
+          <ActionText>CALL</ActionText>
         </ActionCol>
         <ActionCol>
-          {props.displayActive ? <div className="frequency">25%</div> : null}
+          <FreqText>25%</FreqText>
           <RaiseBars>
-            <div className="bar" style={{height:"50px", backgroundColor: "#d184ce"}}></div>
-            <div className="bar" style={{height:"50px", backgroundColor: "#d15678"}}></div>
-            <div className="bar" style={{height:"50px", backgroundColor: "#d13421"}}></div>
+            <Bar style={{height: "50px", backgroundColor: "#d184ce"}} />
+            <Bar style={{height: "50px", backgroundColor: "#d15678"}} />
+            <Bar style={{height: "50px", backgroundColor: "#d13421"}} />
           </RaiseBars>
-          <div className="action">RAISE</div>
+          <ActionText>RAISE</ActionText>
         </ActionCol>
       </FreqBars>
     </FreqContainer>
@@ -34,8 +34,7 @@ function FreqDisplay(props) {
 const FreqContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props => props.displayActive ? "center" : "space-between"};
-  align-items: flex-end;
+  justify-content: ${props => props.displayActive ? "center" : "space-around"};
   width: 100%;
 ;`
 
@@ -58,6 +57,21 @@ const RaiseBars = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+;`
+
+const Bar = styled.div`
+  width: 25px;
+;`
+
+const FreqText = styled.div`
+  font-size: 12px;
+  font-weight: 500;
+;`
+
+const ActionText = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  height: 30px;
 ;`
 
  export default FreqDisplay;
