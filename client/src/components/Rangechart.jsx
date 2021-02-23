@@ -7,7 +7,7 @@ function Rangechart() {
   return (
     <RangeBox>
       <RangeContainer>
-        {combos.map((combo,i) => {
+        {combos.map(combo => {
           return (
             <ComboSquare key={combo}>
               <span>{combo}</span>
