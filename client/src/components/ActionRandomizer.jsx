@@ -5,7 +5,7 @@ function ActionRandomizer(props) {
   const rollFreq = () => Math.ceil(Math.random() * 100);
 
   return (
-    <FreqRandom{...props}>
+    <FreqRandom>
       <RandomNum{...props}>{rollFreq()}</RandomNum>
       <FreqAction{...props}>{props.action}</FreqAction>
     </FreqRandom>

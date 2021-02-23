@@ -80,7 +80,7 @@ const ButtonHeading = styled.div`
 `;
 
 const ButtonGroup = styled.div`
-  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 

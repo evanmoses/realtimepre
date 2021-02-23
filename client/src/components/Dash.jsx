@@ -12,9 +12,7 @@ function Dash(props) {
       <div>
         <Buttons />
       </div>
-      <div>
-        {props.displayActive ? <FreqDisplay /> : <FreqSelect />}
-      </div>
+        <FreqDisplay {...props} />
     </DashBox>
   )
 }
