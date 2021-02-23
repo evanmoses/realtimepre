@@ -21,11 +21,11 @@ function App() {
     <MainContainer>
       <AppRow>
         <ButtonLabel>
-          <DispButton type='radio' name='radio' value='true' checked={displayActive===true} onClick={handleDisplayClick} />
+          <DispButton type='radio' name='radio' value='true' checked={displayActive===true} onChange={handleDisplayClick} />
           <span>Display Range</span>
         </ButtonLabel>
         <ButtonLabel>
-          <DispButton type='radio'  name='radio' value='false' checked={displayActive===false} onClick={handleDisplayClick} />
+          <DispButton type='radio'  name='radio' value='false' checked={displayActive===false} onChange={handleDisplayClick} />
           <span>Create Range</span>
         </ButtonLabel>
       </AppRow>

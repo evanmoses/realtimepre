@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'styled-components';
+import styles from 'styled-components/macro';
 
 function ActionRandomizer(props) {
   const rollFreq = () => Math.ceil(Math.random() * 100);
@@ -13,16 +13,12 @@ function ActionRandomizer(props) {
 }
 
 const handleTextColor = color => {
-  switch(color) {
-    case 'FOLD':
-      return "#85c2c9";
-    case 'CALL':
-      return "#aecf84";
-    case 'RAISE':
-      return "#d184ce";
-    default:
-      return "#d4d4d4";
+  if (color === 'FOLD') {
+    return '#85c2c9';
+  } else if (color === 'CALL') {
+    return "#aecf84";
   }
+  return "#d184ce";
 }
 
 const FreqRandom = styles.div`
@@ -50,6 +46,7 @@ const RandomNum = styles.div`
 const FreqAction = styles.div`
   font-size: 25px;
   font-weight: 500;
+  line-height: 25px;
   color: ${props => handleTextColor(props.action)};
 ;`
 

@@ -30,10 +30,10 @@ function Buttons() {
     <ButtonContainer>
       <ButtonGroup>
         <ButtonHeading>Hero Position</ButtonHeading>
-        {positionArray.map(position => {
+        {positionArray.map((position, index) => {
           return (
-            <ButtonLabel>
-              <CheckButton type='radio' name='hero' value={position} checked={heroPosition===position} onClick={handleHeroChange} />
+            <ButtonLabel key={index}>
+              <CheckButton type='radio' name='hero' value={position} checked={heroPosition===position} onChange={handleHeroChange} />
               <span>{position}</span>
             </ButtonLabel>
           )
@@ -41,10 +41,10 @@ function Buttons() {
       </ButtonGroup>
       <ButtonGroup>
         <ButtonHeading>Villain Position</ButtonHeading>
-        {positionArray.map(position => {
+        {positionArray.map((position, index) => {
           return (
-            <ButtonLabel>
-              <CheckButton type='radio' name='villain' value={position} checked={villainPosition===position} onClick={handleVillainChange} />
+            <ButtonLabel key={index}>
+              <CheckButton type='radio' name='villain' value={position} checked={villainPosition===position} onChange={handleVillainChange} />
               <span>{position}</span>
             </ButtonLabel>
           )
@@ -52,10 +52,10 @@ function Buttons() {
       </ButtonGroup>
       <ButtonGroup>
         <ButtonHeading>Facing Action</ButtonHeading>
-        {actionArray.map(action => {
+        {actionArray.map((action, index) => {
           return (
-            <ButtonLabel>
-              <CheckButton type='radio' name='action' value={action} checked={facingAction===action} onClick={handleActionChange} />
+            <ButtonLabel key={index}>
+              <CheckButton type='radio' name='action' value={action} checked={facingAction===action} onChange={handleActionChange} />
               <span>{action}</span>
             </ButtonLabel>
           )
