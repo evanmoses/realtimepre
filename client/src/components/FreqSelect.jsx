@@ -5,29 +5,29 @@ function FreqSelect() {
   return (
     <SelectContainer>
       <FreqButtonRow>
-        <div className="freq-input">
-          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+        <div>
+          <FreqInput type="text" placeholder="100"/><span>%</span>
         </div>
-        <FreqButton style={{backgroundColor: "#85c2c9"}}>FOLD</FreqButton>
+        <FreqButton color="#85c2c9">FOLD</FreqButton>
       </FreqButtonRow>
       <FreqButtonRow>
-        <div className="freq-input">
-          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+        <div>
+          <FreqInput type="text" placeholder="100"/><span>%</span>
         </div>
-        <FreqButton style={{backgroundColor: "#aecf84"}}>CALL</FreqButton>
+        <FreqButton color="#aecf84">CALL</FreqButton>
       </FreqButtonRow>
-      <FreqButtonRow>
-        <div className="freq=input">
-          <input className="set-freq" type="text" placeholder="100"/><span>%</span>
+      <FreqButtonRow color="#d184ce">
+        <div>
+          <FreqInput type="text" placeholder="100"/><span>%</span>
         </div>
-        <FreqButton style={{backgroundColor: "#d184ce"}}>RAISE</FreqButton>
+        <FreqButton color="#d184ce">RAISE</FreqButton>
       </FreqButtonRow>
       <FreqButtonRow style={{marginTop: "15px"}}>
         <ControlButton>LOAD</ControlButton>
         <ControlButton>EDIT</ControlButton>
       </FreqButtonRow>
       <FreqButtonRow>
-        <ControlButton style={{width: '120px'}}>SUBMIT</ControlButton>
+        <SubmitButton>SUBMIT</SubmitButton>
       </FreqButtonRow>
     </SelectContainer>
   );
@@ -45,15 +45,6 @@ const FreqButtonRow = styled.div`
   margin-bottom: 10px;
 ;`
 
-const FreqButton = styled.div`
-  user-select: none;
-  font-size: 14px;
-  padding: 3px 0;
-  font-weight: 500;
-  width: 50px;
-  border-radius: 5px;
-;`
-
 const ControlButton = styled.div`
   user-select: none;
   font-size: 14px;
@@ -61,7 +52,7 @@ const ControlButton = styled.div`
   font-weight: 500;
   width: 50px;
   border-radius: 5px;
-
+  cursor: pointer;
   background-color: #414141;
 
   &:hover,
@@ -70,7 +61,36 @@ const ControlButton = styled.div`
   }
 ;`
 
+const SubmitButton = styled(ControlButton)`
+  width: 122px;
+;`
 
+const FreqButton = styled(ControlButton)`
+  border: 1px solid ${({color}) => color};
+  background-color: transparent;
 
+  &:hover,
+  &:active {
+    background-color: ${({color}) => color};
+  }
+;`
+
+const FreqInput = styled.input`
+  font-size: 18px;
+  width: 40px;
+  background-color: #414141;
+  color: #d4d4d4;
+  text-align: center;
+  border-radius: 3px;
+
+  &:focus {
+    background-color: #414141;
+    box-shadow: 0 0 0 2px #525252;
+  }
+
+  &::placeholder {
+    color: #d4d4d4;
+  }
+;`
 
 export default FreqSelect;

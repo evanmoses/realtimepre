@@ -83,8 +83,6 @@ const ButtonGroup = styled.div`
   margin-bottom: 15px;
 `;
 
-
-
 const ButtonLabel = styled.label`
   & > span {
     display: inline-block;
