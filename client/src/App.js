@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 
-import './App.css';
-
 import Testlink from './components/Testlink.jsx'
 import Rangechart from './components/Rangechart.jsx'
 import Dash from './components/Dash.jsx'
@@ -16,6 +14,20 @@ function App() {
     const value = (event.target.value === "true")
     setDisplay(value);
   }
+
+  const [ranges, setRange] = useState([]);
+
+  useEffect(() => {
+    async function getRange() {
+      try {
+        const response = await axios.get('http://localhost:9000/ranges');
+        setRange(response.data);
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    getRange();
+  }, []);
 
   return (
     <MainContainer>
@@ -33,6 +45,13 @@ function App() {
         <Rangechart displayActive={displayActive} />
         <Dash displayActive={displayActive} />
       </AppRow>
+      {ranges.map((range,index) => {
+        return (
+          <div key={range._id}>
+            <span>{range.betRange[index].hand}</span>
+          </div>
+        )
+      })}
     </MainContainer>
   );
 }

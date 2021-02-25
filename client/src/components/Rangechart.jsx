@@ -4,6 +4,7 @@ import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
 function Rangechart() {
+
   return (
     <RangeBox>
       <RangeContainer>
@@ -14,7 +15,6 @@ function Rangechart() {
             </ComboSquare>
           )
         })}
-
       </RangeContainer>
       <ActionRandomizer action='FOLD'/>
     </RangeBox>

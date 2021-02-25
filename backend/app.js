@@ -6,7 +6,6 @@ const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Range = require('./models/range.model.js');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -63,6 +62,36 @@ const { connection } = mongoose;
 
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
+  //
+  // const partial = [{
+  //   hand: 'AA', foldFreq: 0, callFreq: 75, raise: [{ freq: 25, size: 100 }],
+  // }, {
+  //   hand: 'AKs', foldFreq: 0, callFreq: 0, raise: [{ freq: 100, size: 100 }],
+  // }, {
+  //   hand: 'AQs', foldFreq: 0, callFreq: 75, raise: [{ freq: 25, size: 100 }],
+  // }, {
+  //   hand: 'AJs', foldFreq: 50, callFreq: 50, raise: [{ freq: 0, size: 0 }],
+  // },
+  // ];
+  //
+  // const rest = range.reduce((result, hand, index) => {
+  //   if (index > 3) {
+  //     result.push({ hand });
+  //   }
+  //   return result;
+  // }, []);
+  //
+  // const hands = partial.concat(rest);
+  // console.log(hands);
+  //
+  // const newRange = new Range({
+  //   heroPos: 'BTN',
+  //   vilPos: 'CO',
+  //   facing: '4BET',
+  //   stackDepth: '100',
+  //   betRange: hands,
+  // });
+  // // newRange.save();
 });
 
 module.exports = app;
