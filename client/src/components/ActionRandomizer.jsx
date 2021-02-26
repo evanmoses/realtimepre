@@ -2,12 +2,11 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 function ActionRandomizer(props) {
-  const rollFreq = () => Math.ceil(Math.random() * 100);
 
   return (
     <FreqRandom>
-      <RandomNum{...props}>{rollFreq()}</RandomNum>
-      <FreqAction{...props}>{props.action}</FreqAction>
+      <RandomNum>{props.randomNum}</RandomNum>
+      <FreqAction>{props.action}</FreqAction>
     </FreqRandom>
   );
 }

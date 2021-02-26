@@ -5,7 +5,7 @@ import FreqSelect from './FreqSelect.jsx'
 function FreqDisplay(props) {
   return (
     <FreqContainer {...props}>
-      {!props.displayActive && <FreqSelect />}
+      {!props.displayActive && <FreqSelect {...props}/>}
       <FreqBars>
         <ActionCol>
           <FreqText>25%</FreqText>

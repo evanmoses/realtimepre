@@ -15,15 +15,23 @@ function App() {
     setDisplay(value);
   }
 
+  // track current combo being hovered on rangechart
+  const [currentCombo, setCombo] = useState(null);
+
   //manage state of radio butotns to select range scenario
   const [heroPosition, setHeroPosition] = useState('BB');
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
-  const [newRange, setNewRange] = useState(['BB', 'BTN', 'N/A'])
+  const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A'])
 
   // fetch new range based on value of radio selector buttons
   const updateRange = (a, b, c) => {
-    setNewRange([a,b,c]);
+    setSelectedRange([a,b,c]);
+  }
+
+  // load range from db to edit in create range mode
+  const handleLoadClick = event => {
+    updateRange(heroPosition, villainPosition, facingAction);
   }
 
   // change handlers for radio selectors, trigger updateRange()
@@ -54,9 +62,9 @@ function App() {
     const source = axios.CancelToken.source();
     try {
       const response = await axios.get('http://localhost:9000/ranges', {params: {
-        heroPos : newRange[0],
-        vilPos : newRange[1],
-        facing: newRange[2],
+        heroPos : selectedRange[0],
+        vilPos : selectedRange[1],
+        facing: selectedRange[2],
         stackDepth: 100
       }}, {cancelToken: source.token});
       const rangeResponse = await response.data;
@@ -65,7 +73,7 @@ function App() {
       console.log(error);
     }
     return () => source.cancel('axios request cancelled');
-  }, [newRange]);
+  }, [selectedRange]);
 
   useEffect(() => {
     getRange();
@@ -86,13 +94,9 @@ function App() {
       <AppRow>
         <Rangechart
           displayActive={displayActive}
-          heroPosition={heroPosition}
-          villainPosition={villainPosition}
-          facingAction={facingAction}
-          handleHeroChange={handleHeroChange}
-          handleVillainChange={handleVillainChange}
-          handleActionChange={handleActionChange}
           range={range}
+          currentCombo={currentCombo}
+          setCombo={setCombo}
         />
         <Dash
           displayActive={displayActive}
@@ -102,6 +106,7 @@ function App() {
           handleHeroChange={handleHeroChange}
           handleVillainChange={handleVillainChange}
           handleActionChange={handleActionChange}
+          handleLoadClick={handleLoadClick}
           range={range}
         />
       </AppRow>

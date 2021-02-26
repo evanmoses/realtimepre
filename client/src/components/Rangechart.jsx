@@ -1,9 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/macro'
 import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
 function Rangechart(props) {
+  const [delayHandler, setDelayHandler] = useState(null);
+  const [showRandomizer, setShowRandomizer] = useState(false);
+  const [randomNum, setRandomNum] = useState(null)
+
+  const handleComboClick = () => {
+    setShowRandomizer(true);
+    setRandomNum(Math.ceil(Math.random() * 100))
+  }
+
+  const handleMouseEnter = (e, index) => {
+    const currentComboIndex = index;
+
+    setDelayHandler(setTimeout(() => {
+      props.setCombo(currentComboIndex);
+    }, 100));
+  }
+
+  const handleMouseLeave = () => {
+    clearTimeout(delayHandler);
+  }
 
   const fillSquares = (i) => {
     if (props.range === null) {
@@ -29,14 +49,21 @@ function Rangechart(props) {
       <RangeContainer>
         {combos.map((combo, index) => {
           return (
-            <ComboSquare key={combo}>
+            <ComboSquare
+              key={combo}
+              onMouseEnter={(e) => handleMouseEnter(e, index)} onMouseLeave={handleMouseLeave}
+              onClick={handleComboClick}
+            >
               <ComboText><div>{combo}</div></ComboText>
               {fillSquares(index)}
             </ComboSquare>
           )
         })}
       </RangeContainer>
-      <ActionRandomizer action='FOLD'/>
+      {showRandomizer && <ActionRandomizer
+        randomNum={randomNum}
+        action='FOLD'
+      />}
     </RangeBox>
   );
 }

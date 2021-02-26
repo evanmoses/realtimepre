@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-function FreqSelect() {
+function FreqSelect(props) {
   return (
     <SelectContainer>
       <FreqButtonRow>
@@ -23,7 +23,7 @@ function FreqSelect() {
         <FreqButton color="#d184ce">RAISE</FreqButton>
       </FreqButtonRow>
       <FreqButtonRow style={{marginTop: "15px"}}>
-        <ControlButton>LOAD</ControlButton>
+        <ControlButton onClick={props.handleLoadClick}>LOAD</ControlButton>
         <ControlButton>EDIT</ControlButton>
       </FreqButtonRow>
       <FreqButtonRow>
