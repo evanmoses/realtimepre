@@ -19,20 +19,32 @@ function App() {
   const [heroPosition, setHeroPosition] = useState('BB');
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
+  const [newRange, setNewRange] = useState(['BB', 'BTN', 'N/A'])
 
+  // fetch new range based on value of radio selector buttons
+  const updateRange = (a, b, c) => {
+    setNewRange([a,b,c]);
+  }
+
+  // change handlers for radio selectors, trigger updateRange()
+  // conditionally on display state
   const handleHeroChange = event => {
     const value = event.target.value;
     setHeroPosition(value);
+    console.log(value);
+    displayActive && updateRange(value, villainPosition, facingAction);
   }
 
   const handleVillainChange = event => {
     const value = event.target.value;
     setVillainPosition(value);
+    displayActive && updateRange(heroPosition, value, facingAction);
   }
 
   const handleActionChange = event => {
     const value = event.target.value;
     setFacingAction(value);
+    displayActive && updateRange(heroPosition, villainPosition, value);
   }
 
   // manage state of range pulled from database
@@ -42,9 +54,9 @@ function App() {
     const source = axios.CancelToken.source();
     try {
       const response = await axios.get('http://localhost:9000/ranges', {params: {
-        heroPos : heroPosition,
-        vilPos : villainPosition,
-        facing: facingAction,
+        heroPos : newRange[0],
+        vilPos : newRange[1],
+        facing: newRange[2],
         stackDepth: 100
       }}, {cancelToken: source.token});
       const rangeResponse = await response.data;
@@ -53,7 +65,7 @@ function App() {
       console.log(error);
     }
     return () => source.cancel('axios request cancelled');
-  }, [heroPosition, villainPosition, facingAction]);
+  }, [newRange]);
 
   useEffect(() => {
     getRange();
