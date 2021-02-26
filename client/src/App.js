@@ -22,25 +22,21 @@ function App() {
 
   const handleHeroChange = event => {
     const value = event.target.value;
-    setLoading(true);
     setHeroPosition(value);
   }
 
   const handleVillainChange = event => {
     const value = event.target.value;
-    setLoading(true);
     setVillainPosition(value);
   }
 
   const handleActionChange = event => {
     const value = event.target.value;
-    setLoading(true);
     setFacingAction(value);
   }
 
   // manage state of range pulled from database
   const [range, setRange] = useState(null);
-  const[loading, setLoading] = useState(true);
 
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
@@ -52,7 +48,6 @@ function App() {
         stackDepth: 100
       }}, {cancelToken: source.token});
       const rangeResponse = await response.data;
-      console.log(rangeResponse);
       setRange(rangeResponse);
     } catch (error) {
       console.log(error);
@@ -61,8 +56,8 @@ function App() {
   }, [heroPosition, villainPosition, facingAction]);
 
   useEffect(() => {
-    getRange().then(() => setLoading(false));
-  }, [loading, getRange]);
+    getRange();
+  }, [getRange]);
 
   return (
     <MainContainer>
