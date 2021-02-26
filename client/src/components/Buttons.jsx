@@ -1,30 +1,10 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 
-function Buttons() {
-  const [heroPosition, setHeroPosition] = useState('BB');
-  const [villainPosition, setVillainPosition] = useState('BTN');
-  const [facingAction, setFacingAction] = useState('N/A');
+function Buttons(props) {
 
   const positionArray = ['UTG', 'HJ', 'CO', 'BTN', 'SB', 'BB']
   const actionArray = ['N/A', 'LIMP', 'RAISE', '3BET', '4BET', 'JAM']
-
-  const handleHeroChange = event => {
-    const value = event.target.value;
-    setHeroPosition(value);
-  }
-
-  const handleVillainChange = event => {
-    const value = event.target.value;
-    setVillainPosition(value);
-  }
-
-  const handleActionChange = event => {
-    const value = event.target.value;
-    setFacingAction(value);
-  }
-
-
 
   return (
     <ButtonContainer>
@@ -33,7 +13,7 @@ function Buttons() {
         {positionArray.map(position => {
           return (
             <ButtonLabel key={`hero${position}`}>
-              <CheckButton type='radio' name='hero' value={position} checked={heroPosition===position} onChange={handleHeroChange} />
+              <CheckButton type='radio' name='hero' value={position} checked={props.heroPosition===position} onChange={props.handleHeroChange} />
               <span>{position}</span>
             </ButtonLabel>
           )
@@ -44,7 +24,7 @@ function Buttons() {
         {positionArray.map(position => {
           return (
             <ButtonLabel key={`villain${position}`}>
-              <CheckButton type='radio' name='villain' value={position} checked={villainPosition===position} onChange={handleVillainChange} />
+              <CheckButton type='radio' name='villain' value={position} checked={props.villainPosition===position} onChange={props.handleVillainChange} />
               <span>{position}</span>
             </ButtonLabel>
           )
@@ -55,7 +35,7 @@ function Buttons() {
         {actionArray.map(action => {
           return (
             <ButtonLabel key={`facing${action}`}>
-              <CheckButton type='radio' name='action' value={action} checked={facingAction===action} onChange={handleActionChange} />
+              <CheckButton type='radio' name='action' value={action} checked={props.facingAction===action} onChange={props.handleActionChange} />
               <span>{action}</span>
             </ButtonLabel>
           )

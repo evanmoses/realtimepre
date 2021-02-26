@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 
@@ -7,7 +7,7 @@ import Rangechart from './components/Rangechart.jsx'
 import Dash from './components/Dash.jsx'
 
 function App() {
-
+  //toggle two main app modes 'create range' and 'display range'
   const [displayActive, setDisplay] = useState(true);
 
   const handleDisplayClick = event => {
@@ -15,19 +15,54 @@ function App() {
     setDisplay(value);
   }
 
-  const [ranges, setRange] = useState([]);
+  //manage state of radio butotns to select range scenario
+  const [heroPosition, setHeroPosition] = useState('BB');
+  const [villainPosition, setVillainPosition] = useState('BTN');
+  const [facingAction, setFacingAction] = useState('N/A');
+
+  const handleHeroChange = event => {
+    const value = event.target.value;
+    setLoading(true);
+    setHeroPosition(value);
+  }
+
+  const handleVillainChange = event => {
+    const value = event.target.value;
+    setLoading(true);
+    setVillainPosition(value);
+  }
+
+  const handleActionChange = event => {
+    const value = event.target.value;
+    setLoading(true);
+    setFacingAction(value);
+  }
+
+  // manage state of range pulled from database
+  const [range, setRange] = useState(null);
+  const[loading, setLoading] = useState(true);
+
+  const getRange = useCallback(async () => {
+    const source = axios.CancelToken.source();
+    try {
+      const response = await axios.get('http://localhost:9000/ranges', {params: {
+        heroPos : heroPosition,
+        vilPos : villainPosition,
+        facing: facingAction,
+        stackDepth: 100
+      }}, {cancelToken: source.token});
+      const rangeResponse = await response.data;
+      console.log(rangeResponse);
+      setRange(rangeResponse);
+    } catch (error) {
+      console.log(error);
+    }
+    return () => source.cancel('axios request cancelled');
+  }, [heroPosition, villainPosition, facingAction]);
 
   useEffect(() => {
-    async function getRange() {
-      try {
-        const response = await axios.get('http://localhost:9000/ranges');
-        setRange(response.data);
-      } catch(error) {
-        console.log(error);
-      }
-    }
-    getRange();
-  }, []);
+    getRange().then(() => setLoading(false));
+  }, [loading, getRange]);
 
   return (
     <MainContainer>
@@ -42,16 +77,27 @@ function App() {
         </ButtonLabel>
       </AppRow>
       <AppRow>
-        <Rangechart displayActive={displayActive} />
-        <Dash displayActive={displayActive} />
+        <Rangechart
+          displayActive={displayActive}
+          heroPosition={heroPosition}
+          villainPosition={villainPosition}
+          facingAction={facingAction}
+          handleHeroChange={handleHeroChange}
+          handleVillainChange={handleVillainChange}
+          handleActionChange={handleActionChange}
+          range={range}
+        />
+        <Dash
+          displayActive={displayActive}
+          heroPosition={heroPosition}
+          villainPosition={villainPosition}
+          facingAction={facingAction}
+          handleHeroChange={handleHeroChange}
+          handleVillainChange={handleVillainChange}
+          handleActionChange={handleActionChange}
+          range={range}
+        />
       </AppRow>
-      {ranges.map((range,index) => {
-        return (
-          <div key={range._id}>
-            <span>{range.betRange[index].hand}</span>
-          </div>
-        )
-      })}
     </MainContainer>
   );
 }

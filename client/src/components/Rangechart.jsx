@@ -3,15 +3,16 @@ import styled from 'styled-components/macro'
 import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
-function Rangechart() {
+function Rangechart(props) {
 
   return (
     <RangeBox>
       <RangeContainer>
-        {combos.map(combo => {
+        {combos.map((combo, index) => {
           return (
             <ComboSquare key={combo}>
-              <span>{combo}</span>
+              {combo}
+              <FreqBar>{props.range !== null ? props.range.betRange[index].hand : null }</FreqBar>
             </ComboSquare>
           )
         })}
@@ -47,10 +48,11 @@ const ComboSquare = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.6rem;
+;`
 
-  & > span {
-    font-size: 0.6rem;
-  }
+const FreqBar = styled.div`
+  font-size: 0.3rem;
 ;`
 
 export default Rangechart;

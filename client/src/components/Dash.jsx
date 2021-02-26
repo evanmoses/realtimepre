@@ -6,11 +6,10 @@ import FreqSelect from './FreqSelect.jsx'
 import FreqDisplay from './FreqDisplay.jsx'
 
 function Dash(props) {
-
   return (
     <DashBox>
       <div>
-        <Buttons />
+        <Buttons {...props}/>
       </div>
         <FreqDisplay {...props} />
     </DashBox>
@@ -19,7 +18,6 @@ function Dash(props) {
 
 const DashBox = styled.div`
   padding: 10px;
-  margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
