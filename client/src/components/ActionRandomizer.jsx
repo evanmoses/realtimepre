@@ -1,21 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/macro';
+
+
 
 function ActionRandomizer(props) {
 
   return (
-    <FreqRandom>
-      <RandomNum>{props.randomNum}</RandomNum>
-      <FreqAction>{props.action}</FreqAction>
+    <FreqRandom onClick={props.handleComboClick}>
+      <RandomNum{...props}>{props.randomNum}</RandomNum>
+      <FreqAction{...props}>{props.action}</FreqAction>
     </FreqRandom>
   );
 }
 
-const handleTextColor = color => {
+const handleTextColor = (color) => {
   if (color === 'FOLD') {
     return '#85c2c9';
-  } else if (color === 'CALL') {
+  }
+  if (color === 'CALL') {
     return "#aecf84";
+  }
+  if (color === 'N/A') {
+    return '#dfdfdf'
   }
   return "#d184ce";
 }

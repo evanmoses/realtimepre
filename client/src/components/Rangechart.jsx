@@ -1,24 +1,63 @@
 import React, {useState} from 'react';
-import styled from 'styled-components/macro'
+import styled from 'styled-components/macro';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
 import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
 function Rangechart(props) {
   const [delayHandler, setDelayHandler] = useState(null);
-  const [showRandomizer, setShowRandomizer] = useState(false);
-  const [randomNum, setRandomNum] = useState(null)
+  const [randomizerDelay, setRandomizerDelay] =  useState(null);
+  const [showRandomizer, setShowRandomizer] = useStateWithCallbackLazy(false);
+  const [randomNum, setRandomNum] = useState(Math.ceil(Math.random() * 100))
+  const [action, setAction] = useState('');
 
   const handleComboClick = () => {
-    setShowRandomizer(true);
-    setRandomNum(Math.ceil(Math.random() * 100))
+    if (!showRandomizer) {
+      console.log(props.range.betRange[props.currentCombo].foldFreq, props.range.betRange[props.currentCombo].callFreq);
+      setAction(decideAction());
+      setShowRandomizer(true, () => {
+        setRandomizerDelay(setTimeout(() => {
+          setShowRandomizer(false);
+          setRandomNum(Math.ceil(Math.random() * 100));
+        }, 5000))
+      });
+    }
+    if (showRandomizer) {
+      setShowRandomizer(false);
+      setRandomNum(Math.ceil(Math.random() * 100));
+      clearTimeout(randomizerDelay);
+    }
+  }
+
+  const decideAction = () => {
+    const thisBetRange = props.range.betRange[props.currentCombo];
+    var a = thisBetRange.foldFreq;
+    var b = thisBetRange.callFreq;
+    var c = thisBetRange.raise[0]
+
+    if (!a && !b && !c) {
+      return 'N/A';
+    }
+    if (a === undefined) { a=0 };
+    if (b === undefined) { b=0 };
+    if (a > randomNum) {
+      return 'FOLD';
+    }
+    if (a+b > randomNum) {
+      return 'CALL';
+    }
+    if (a + b + c.freq > randomNum) {
+      return 'RAISE';
+    }
   }
 
   const handleMouseEnter = (e, index) => {
     const currentComboIndex = index;
-
-    setDelayHandler(setTimeout(() => {
-      props.setCombo(currentComboIndex);
-    }, 100));
+    if (!showRandomizer) {
+      setDelayHandler(setTimeout(() => {
+        props.setCombo(currentComboIndex);
+      }, 80));
+    }
   }
 
   const handleMouseLeave = () => {
@@ -61,8 +100,9 @@ function Rangechart(props) {
         })}
       </RangeContainer>
       {showRandomizer && <ActionRandomizer
+        action={action}
         randomNum={randomNum}
-        action='FOLD'
+        handleComboClick={handleComboClick}
       />}
     </RangeBox>
   );
@@ -126,7 +166,5 @@ const ComboText = styled.div`
     bottom: 0;
   }
 ;`
-
-
 
 export default Rangechart;
