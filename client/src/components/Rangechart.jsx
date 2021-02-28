@@ -5,7 +5,6 @@ import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
 function Rangechart(props) {
-  const [delayHandler, setDelayHandler] = useState(null);
   const [randomizerDelay, setRandomizerDelay] =  useState(null);
   const [showRandomizer, setShowRandomizer] = useStateWithCallbackLazy(false);
   const [randomNum, setRandomNum] = useState(Math.ceil(Math.random() * 100))
@@ -13,7 +12,6 @@ function Rangechart(props) {
 
   const handleComboClick = () => {
     if (!showRandomizer) {
-      console.log(props.range.betRange[props.currentCombo].foldFreq, props.range.betRange[props.currentCombo].callFreq);
       setAction(decideAction());
       setShowRandomizer(true, () => {
         setRandomizerDelay(setTimeout(() => {
@@ -53,15 +51,7 @@ function Rangechart(props) {
 
   const handleMouseEnter = (e, index) => {
     const currentComboIndex = index;
-    if (!showRandomizer) {
-      setDelayHandler(setTimeout(() => {
-        props.setCombo(currentComboIndex);
-      }, 80));
-    }
-  }
-
-  const handleMouseLeave = () => {
-    clearTimeout(delayHandler);
+    props.setCombo(currentComboIndex);
   }
 
   const fillSquares = (i) => {
@@ -90,7 +80,7 @@ function Rangechart(props) {
           return (
             <ComboSquare
               key={combo}
-              onMouseEnter={(e) => handleMouseEnter(e, index)} onMouseLeave={handleMouseLeave}
+              onMouseEnter={(e) => handleMouseEnter(e, index)}
               onClick={handleComboClick}
             >
               <ComboText><div>{combo}</div></ComboText>

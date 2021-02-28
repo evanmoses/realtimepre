@@ -23,7 +23,7 @@ const handleTextColor = (color) => {
   if (color === 'N/A') {
     return '#dfdfdf'
   }
-  return "#d184ce";
+  return "#a484d1";
 }
 
 const FreqRandom = styled.div`

@@ -3,49 +3,63 @@ import styled from 'styled-components/macro';
 import FreqSelect from './FreqSelect.jsx'
 
 function FreqDisplay(props) {
+  if (props.range === null || props.currentCombo === null) {
+    return <FreqContainer />;
+  }
+  const x = props.range.betRange[props.currentCombo]
+  const y = x.raise;
+
+  const raiseColorPicker = (index) => {
+    if (index === 0) {
+      return "#a484d1";
+    }
+    if (index === 1) {
+      return "#d184ce";
+    }
+    if (index === 2) {
+      return "#d19184";
+    }
+    if (index === 3) {
+      return "#d1b684";
+    }
+  }
   return (
     <FreqContainer {...props}>
       {!props.displayActive && <FreqSelect {...props}/>}
       <FreqBars>
-        <ActionCol>
-          <FreqText>25%</FreqText>
-          <Bar color="#85c2c9" style={{height:"50px"}} />
-          <ActionText>FOLD</ActionText>
-        </ActionCol>
-        <ActionCol>
-          <FreqText>50%</FreqText>
-          <Bar color="#aecf84" style={{height: "125px"}} />
-          <ActionText>CALL</ActionText>
-        </ActionCol>
-        <ActionCol>
-          <RaiseBars>
+        {!x.foldFreq ? null :
+          <ActionCol>
+            <FreqText>{x.foldFreq}%</FreqText>
+            <Bar color="#85c2c9" height={`${x.foldFreq*1.5}px`} />
+            <ActionText>FOLD</ActionText>
+          </ActionCol>
+        }
+        {!x.callFreq ? null :
+          <ActionCol>
+            <FreqText>{x.callFreq}%</FreqText>
+            <Bar color="#aecf84" height={`${x.callFreq*1.5}px`} />
+            <ActionText>CALL</ActionText>
+          </ActionCol>
+        }
+        {!y[0] ? null :
+          [!y[0].freq ? null :
             <ActionCol>
-              <FreqText>25%</FreqText>
-              <Bar color="#a484d1" style={{height: "50px"}}>
-                <FreqText>10<span>BB</span></FreqText>
-              </Bar>
+              <RaiseBars>
+                {y.map((raise,index) => {
+                  return (
+                  <ActionCol key={index}>
+                    <FreqText>{raise.freq}%</FreqText>
+                    <Bar color={raiseColorPicker(index)} height={`${raise.freq*1.5}px`}>
+                      <FreqText>{raise.size}<span>BB</span></FreqText>
+                    </Bar>
+                  </ActionCol>
+                  )
+                })}
+              </RaiseBars>
+              <ActionText>RAISE</ActionText>
             </ActionCol>
-            <ActionCol>
-              <FreqText>25%</FreqText>
-              <Bar color="#d184ce"style={{height: "100px"}}>
-                <FreqText>13<span>BB</span></FreqText>
-              </Bar>
-            </ActionCol>
-            <ActionCol>
-              <FreqText>25%</FreqText>
-              <Bar color="#d19184" style={{height: "40px"}}>
-                <FreqText>10<span>BB</span></FreqText>
-              </Bar>
-            </ActionCol>
-            <ActionCol>
-              <FreqText>25%</FreqText>
-              <Bar color="#d1b684" style={{height: "40px"}}>
-                <FreqText>10<span>BB</span></FreqText>
-              </Bar>
-            </ActionCol>
-          </RaiseBars>
-          <ActionText>RAISE</ActionText>
-        </ActionCol>
+          ]
+        }
       </FreqBars>
     </FreqContainer>
   );
@@ -85,6 +99,7 @@ const Bar = styled.div`
   justify-content: center;
   align-items: center;
   color: #702227;
+  height: ${props => props.height};
 ;`
 
 const FreqText = styled.div`

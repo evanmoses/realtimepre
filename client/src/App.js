@@ -108,6 +108,7 @@ function App() {
           handleActionChange={handleActionChange}
           handleLoadClick={handleLoadClick}
           range={range}
+          currentCombo={currentCombo}
         />
       </AppRow>
     </MainContainer>

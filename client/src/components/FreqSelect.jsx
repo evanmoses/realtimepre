@@ -16,11 +16,11 @@ function FreqSelect(props) {
         </div>
         <FreqButton color="#aecf84">CALL</FreqButton>
       </FreqButtonRow>
-      <FreqButtonRow color="#d184ce">
+      <FreqButtonRow color="#a484d1">
         <div>
           <FreqInput type="text" placeholder="100"/><span>%</span>
         </div>
-        <FreqButton color="#d184ce">RAISE</FreqButton>
+        <FreqButton color="#a484d1">RAISE</FreqButton>
       </FreqButtonRow>
       <FreqButtonRow style={{marginTop: "15px"}}>
         <ControlButton onClick={props.handleLoadClick}>LOAD</ControlButton>
