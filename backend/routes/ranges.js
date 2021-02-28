@@ -5,10 +5,6 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  console.log(req.query.heroPos);
-  console.log(req.query.vilPos);
-  console.log(req.query.facing);
-  console.log(req.query.stackDepth);
   Range.findOne({
     heroPos: req.query.heroPos,
     vilPos: req.query.vilPos,
