@@ -34,7 +34,7 @@ function Rangechart(props) {
     var c = thisBetRange.raise;
 
 
-    if (!a && !b && !c) {
+    if (!a && !b && !c[0]) {
       return 'N/A';
     }
     if (a === undefined) { a=0 };
