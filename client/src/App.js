@@ -79,6 +79,45 @@ function App() {
     getRange();
   }, [getRange]);
 
+  // manage state state of frequency buttons when creating new range
+  const [foldPicker, setFoldPicker] = useState(false);
+  const [callPicker, setCallPicker] = useState(false);
+  const [raisePicker, setRaisePicker] = useState(false);
+  const [freqPicker, setFreqPicker] = useState([100,0,12,19,46,80]);
+  const [sizePicker, setSizePicker] = useState([3,10,20,30]);
+
+  const handleFreqInput = event => {
+    console.log(freqPicker);
+  }
+
+  const handleFoldClick = event => {
+    setFoldPicker(prevCheck => !prevCheck);
+  }
+
+  const handleCallClick = event => {
+    setCallPicker(prevCheck => !prevCheck);
+  }
+
+  const handleRaiseClick = event => {
+    setRaisePicker(prevCheck => !prevCheck);
+  }
+
+  const handleFreqChange = (event, index) => {
+    const newFreq = event.target.value;
+    let newArr = [...freqPicker];
+    newArr[index] = newFreq;
+    setFreqPicker(newArr);
+    console.log(freqPicker);
+  }
+
+  const handleSizeChange = (event, index) => {
+    const newFreq = event.target.value;
+    let newArr = [...sizePicker];
+    newArr[index] = newFreq;
+    setSizePicker(newArr);
+    console.log(sizePicker);
+  }
+
   return (
     <MainContainer>
       <AppRow>
@@ -93,22 +132,37 @@ function App() {
       </AppRow>
       <AppRow>
         <Rangechart
-          displayActive={displayActive}
           range={range}
           currentCombo={currentCombo}
           setCombo={setCombo}
+          displayActive={displayActive}
+          handleFreqInput={handleFreqInput}
         />
         <Dash
+          range={range}
+          currentCombo={currentCombo}
           displayActive={displayActive}
+
           heroPosition={heroPosition}
           villainPosition={villainPosition}
           facingAction={facingAction}
+
           handleHeroChange={handleHeroChange}
           handleVillainChange={handleVillainChange}
           handleActionChange={handleActionChange}
+
           handleLoadClick={handleLoadClick}
-          range={range}
-          currentCombo={currentCombo}
+
+          foldPicker={foldPicker}
+          callPicker={callPicker}
+          raisePicker={raisePicker}
+          freqPicker={freqPicker}
+          sizePicker={sizePicker}
+          handleFoldClick={handleFoldClick}
+          handleCallClick={handleCallClick}
+          handleRaiseClick={handleRaiseClick}
+          handleFreqChange={handleFreqChange}
+          handleSizeChange={handleSizeChange}
         />
       </AppRow>
     </MainContainer>

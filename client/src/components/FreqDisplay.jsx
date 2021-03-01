@@ -4,9 +4,6 @@ import FreqSelect from './FreqSelect.jsx'
 import FreqBars from './FreqBars.jsx'
 
 function FreqDisplay(props) {
-  if (props.range === null || props.currentCombo === null) {
-    return <FreqContainer />;
-  }
 
   return (
     <FreqContainer {...props}>

@@ -3,6 +3,9 @@ import styled from 'styled-components/macro';
 
 
 function FreqBars(props) {
+  if (props.range === null || props.currentCombo === null) {
+    return <Container />;
+  }
 
   const x = props.range.betRange[props.currentCombo]
   const y = x.raise;

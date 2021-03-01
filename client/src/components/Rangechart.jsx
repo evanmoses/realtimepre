@@ -87,7 +87,7 @@ function Rangechart(props) {
             <ComboSquare
               key={combo}
               onMouseEnter={(e) => handleMouseEnter(e, index)}
-              onClick={handleComboClick}
+              onClick={props.displayActive ? handleComboClick : props.handleFreqInput}
             >
               <ComboText><div>{combo}</div></ComboText>
               {fillSquares(index)}

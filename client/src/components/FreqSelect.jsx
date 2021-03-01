@@ -1,56 +1,54 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import SingleBar from './SingleBar.jsx'
 
 function FreqSelect(props) {
-  const x = props.range.betRange[props.currentCombo];
-  let y = []
-  x.raise ? y = x.raise : y = null;
 
   return (
     <SelectContainer>
       <SelectButtonContainer>
         <FreqButtonRow>
-          <FreqButton color="#85c2c9">FOLD</FreqButton>
+          <FreqButton color="#85c2c9" onClick={props.handleFoldClick} className={props.foldPicker && 'active'}>FOLD</FreqButton>
           <InputContainer>
-            <FreqInput type="text" placeholder="100"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[0]} onChange={event => props.handleFreqChange(event, 0)} /><span>%</span>
           </InputContainer>
-          <FreqButton style={{marginLeft: "20px"}}color="#aecf84">CALL</FreqButton>
+          <FreqButton style={{marginLeft: "20px"}} color="#aecf84" onClick={props.handleCallClick} className={props.callPicker && 'active'}>CALL</FreqButton>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[1]} onChange={event => props.handleFreqChange(event, 1)}/><span>%</span>
           </InputContainer>
         </FreqButtonRow>
         <FreqButtonRow style={{marginTop: "15px"}}>
-            <FreqButton color="#a484d1">RAISE</FreqButton>
+            <FreqButton color="#a484d1" onClick={props.handleRaiseClick} className={props.raisePicker && 'active'}>RAISE</FreqButton>
             <RaiseText>Raise size, smallest to largest</RaiseText>
         </FreqButtonRow>
 
         <FreqButtonRow>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[2]} onChange={event => props.handleFreqChange(event, 2)}/><span>%</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[3]} onChange={event => props.handleFreqChange(event, 3)}/><span>%</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[4]} onChange={event => props.handleFreqChange(event, 4)}/><span>%</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[5]} onChange={event => props.handleFreqChange(event, 5)}/><span>%</span>
           </InputContainer>
         </FreqButtonRow>
 
         <FreqButtonRow>
           <InputContainer>
-            <FreqInput type="text" placeholder="3"/><span>BB</span>
+            <FreqInput type="text" value={props.sizePicker[0]} onChange={event => props.handleSizeChange(event, 0)}/><span>BB</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>BB</span>
+            <FreqInput type="text" value={props.sizePicker[1]} onChange={event => props.handleSizeChange(event, 1)}/><span>BB</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>BB</span>
+            <FreqInput type="text" value={props.sizePicker[2]} onChange={event => props.handleSizeChange(event, 2)}/><span>BB</span>
           </InputContainer>
           <InputContainer>
-            <FreqInput type="text" placeholder="0"/><span>BB</span>
+            <FreqInput type="text" value={props.sizePicker[3]} onChange={event => props.handleSizeChange(event, 3)}/><span>BB</span>
           </InputContainer>
         </FreqButtonRow>
 
@@ -59,16 +57,7 @@ function FreqSelect(props) {
           <ControlButton>SUBMIT</ControlButton>
         </FreqButtonRow>
       </SelectButtonContainer>
-      <SingleBar>
-        <FreqFill>
-          {y[3] ? <Freq color="#d1b684" height={`${y[3].freq/100*170}px`} /> : null}
-          {y[2] ? <Freq color="#d19184" height={`${y[2].freq/100*170}px`} /> : null}
-          {y[1] ? <Freq color="#d184ce" height={`${y[1].freq/100*170}px`} /> : null}
-          {y[0] ? <Freq color="#a484d1" height={`${y[0].freq/100*170}px`} /> : null}
-          {x.callFreq ? <Freq color="#aecf84" height={`${x.callFreq/100*150}px`} /> : null}
-          {x.foldFreq ? <Freq color="#85c2c9" height={`${x.foldFreq/100*150}px`} /> : null}
-        </FreqFill>
-      </SingleBar>
+      <SingleBar {...props}/>
     </SelectContainer>
   );
 }
@@ -125,7 +114,8 @@ const FreqButton = styled(ControlButton)`
   padding: 3px 0;
 
   &:hover,
-  &:active {
+  &:active,
+  &.active {
     background-color: ${({color}) => color};
   }
 ;`
@@ -146,27 +136,6 @@ const FreqInput = styled.input`
   &::placeholder {
     color: #d4d4d4;
   }
-;`
-
-const SingleBar = styled.div`
-  width: 15%;
-  margin-right: 5px;
-  margin-bottom: 10px;
-`;
-
-const FreqFill = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: no-wrap;
-  align-items: flex-end;
-;`
-
-const Freq = styled.div`
-  width: 25px;
-  background-color: ${({color}) => color};
-  height: ${({height}) => height};
 ;`
 
 const RaiseText = styled.div`
