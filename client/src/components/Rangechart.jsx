@@ -31,7 +31,8 @@ function Rangechart(props) {
     const thisBetRange = props.range.betRange[props.currentCombo];
     var a = thisBetRange.foldFreq;
     var b = thisBetRange.callFreq;
-    var c = thisBetRange.raise[0]
+    var c = thisBetRange.raise;
+
 
     if (!a && !b && !c) {
       return 'N/A';
@@ -44,8 +45,13 @@ function Rangechart(props) {
     if (a+b > randomNum) {
       return 'CALL';
     }
-    if (a + b + c.freq > randomNum) {
-      return 'RAISE';
+    else {
+      const freqArray = c.map(x => a+b+x.freq)
+      const totalFreqArray = freqArray.map((elem, index) => {
+        return freqArray.slice(0,index + 1).reduce((a,b) => a+b);
+      });
+      const actionIndex = totalFreqArray.findIndex((n) => n > randomNum);
+      return <div>RAISE<br/>{c[actionIndex].size} BB</div>
     }
   }
 

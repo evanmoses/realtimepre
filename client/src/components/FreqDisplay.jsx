@@ -23,6 +23,7 @@ function FreqDisplay(props) {
       return "#d1b684";
     }
   }
+
   return (
     <FreqContainer {...props}>
       {!props.displayActive && <FreqSelect {...props}/>}
