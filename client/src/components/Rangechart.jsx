@@ -64,8 +64,8 @@ function Rangechart(props) {
     if (props.range === null) {
       return <FreqFill />;
     }
-    const x = props.range.betRange[i]
-    let y = []
+    const x = props.range.betRange[i];
+    let y = [];
     x.raise ? y = x.raise : y = null;
     return (
       <FreqFill>
@@ -89,7 +89,7 @@ function Rangechart(props) {
               onMouseEnter={(e) => handleMouseEnter(e, index)}
               onClick={props.displayActive ? handleComboClick : props.handleFreqInput}
             >
-              <ComboText><div>{combo}</div></ComboText>
+              <ComboText><div><p>{combo}</p></div></ComboText>
               {fillSquares(index)}
             </ComboSquare>
           )
@@ -136,11 +136,10 @@ const ComboSquare = styled.div`
 
 const FreqFill = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: no-wrap;
-  align-items: flex-end;
+  align-self: flex-end;
 ;`
 
 const Freq = styled.div`
@@ -160,6 +159,11 @@ const ComboText = styled.div`
     left: 15px;
     right: 0;
     bottom: 0;
+  }
+  & p {
+    background-color: rgba(82, 82, 82, 0.15);
+    line-height: 0.6rem;
+    border-radius: 2px;
   }
 ;`
 

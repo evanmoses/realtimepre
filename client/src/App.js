@@ -73,15 +73,16 @@ function App() {
       console.log(error);
     }
     return () => source.cancel('axios request cancelled');
-  }, [selectedRange]);
+  }, [selectedRange, displayActive]);
 
-  const pushSelectedToRange = useCallback((newRange) => {
-    setRange(newRange);
+
+  const pushSelectedToRange = useCallback(async (newRange) => {
+    await setRange(newRange);
   }, []);
 
   useEffect(() => {
-    getRange();
-  }, [getRange]);
+    getRange()
+  }, [getRange, pushSelectedToRange]);
 
 
   // manage state state of frequency buttons when creating new range
@@ -90,6 +91,8 @@ function App() {
   const [raisePicker, setRaisePicker] = useState(false);
   const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
   const [sizePicker, setSizePicker] = useState([3,0,0,0]);
+  const [renderToggle, setRenderToggle] = useState(false);
+
 
   const handleFoldClick = event => {
     setFoldPicker(prevCheck => !prevCheck);
@@ -149,6 +152,7 @@ function App() {
       });
     }
     newRange.betRange[currentCombo] = thisCombo;
+    setRenderToggle(!renderToggle);
     pushSelectedToRange(newRange);
   }
 
