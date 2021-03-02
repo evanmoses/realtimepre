@@ -8,7 +8,8 @@ import withReactContent from 'sweetalert2-react-content';
 import Rangechart from './components/Rangechart.jsx';
 import Dash from './components/Dash.jsx';
 import PostPopUp from './components/PostPopUp.jsx';
-import AlertModal from './components/AlertModal.jsx';
+
+import AlertModal from './lib/AlertModal.jsx';
 
 const MySwal = withReactContent(AlertModal);
 
