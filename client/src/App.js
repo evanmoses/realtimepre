@@ -4,8 +4,9 @@ import axios from 'axios';
 import styled from 'styled-components/macro';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
 
-import Rangechart from './components/Rangechart.jsx'
-import Dash from './components/Dash.jsx'
+import Rangechart from './components/Rangechart.jsx';
+import Dash from './components/Dash.jsx';
+import PostPopUp from './components/PostPopUp.jsx';
 
 function App() {
   //toggle two main app modes 'create range' and 'display range'
@@ -24,7 +25,6 @@ function App() {
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
   const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A']);
-  const [postMessage, setPostMessage] = useState('');
 
   // fetch new range based on value of radio selector buttons
   const updateRange = (a, b, c) => {
@@ -77,14 +77,24 @@ function App() {
     return () => source.cancel('axios request cancelled');
   }, [selectedRange, displayActive]);
 
-  const handleSubmitClick = useCallback( async () {
-    try {
-      setPostMessage('password');
-      process.env.REACT_APP_POST_PASS;
-    }
-  }, [])
 
+  const [postMessage, setPostMessage] = useState('');
 
+  const handleSubmitClick = () => {
+    setPostMessage('login');
+  };
+
+  const postRange = () => {
+    setPostMessage('confirm');
+  };
+
+  // const postRange = useCallback( async () => {
+  //   try {
+  //     setPostMessage('password');
+  //     const pass =
+  //     process.env.REACT_APP_POST_PASS;
+  //   }
+  // }, [])
 
   const pushSelectedToRange = useCallback(async (newRange) => {
     await setRange(newRange);
@@ -245,8 +255,10 @@ function App() {
           handleRaiseClick={handleRaiseClick}
           handleFreqChange={handleFreqChange}
           handleSizeChange={handleSizeChange}
+          handleSubmitClick={handleSubmitClick}
         />
       </AppRow>
+      {!postMessage ? null : <PostPopUp postMessage={postMessage} postRange={postRange} setPostMessage={setPostMessage}/>}
     </MainContainer>
 
   );
