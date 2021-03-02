@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback} from 'react';
+import cloneDeep from 'lodash/cloneDeep';
 import axios from 'axios';
 import styled from 'styled-components/macro';
+import {useStateWithCallbackLazy} from 'use-state-with-callback';
 
-import Testlink from './components/Testlink.jsx'
 import Rangechart from './components/Rangechart.jsx'
 import Dash from './components/Dash.jsx'
 
@@ -16,13 +17,14 @@ function App() {
   }
 
   // track current combo being hovered on rangechart
-  const [currentCombo, setCombo] = useState(null);
+  const [currentCombo, setCombo] = useStateWithCallbackLazy(null);
 
   //manage state of radio butotns to select range scenario
   const [heroPosition, setHeroPosition] = useState('BB');
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
-  const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A'])
+  const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A']);
+  const [postMessage, setPostMessage] = useState('');
 
   // fetch new range based on value of radio selector buttons
   const updateRange = (a, b, c) => {
@@ -55,7 +57,7 @@ function App() {
     displayActive && updateRange(heroPosition, villainPosition, value);
   }
 
-  // manage state of range pulled from database
+  // manage state of range pulled from database / edited by user
   const [range, setRange] = useState(null);
 
   const getRange = useCallback(async () => {
@@ -75,6 +77,14 @@ function App() {
     return () => source.cancel('axios request cancelled');
   }, [selectedRange, displayActive]);
 
+  const handleSubmitClick = useCallback( async () {
+    try {
+      setPostMessage('password');
+      process.env.REACT_APP_POST_PASS;
+    }
+  }, [])
+
+
 
   const pushSelectedToRange = useCallback(async (newRange) => {
     await setRange(newRange);
@@ -92,6 +102,7 @@ function App() {
   const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
   const [sizePicker, setSizePicker] = useState([3,0,0,0]);
   const [renderToggle, setRenderToggle] = useState(false);
+  const [isMouseDown, setMouseDown] = useState(false);
 
 
   const handleFoldClick = event => {
@@ -120,28 +131,25 @@ function App() {
     setSizePicker(newArr);
   }
 
-  const handleFreqInput = event => {
+  const handleFreqInput = combo => {
     if (!foldPicker & !callPicker & !raisePicker) {
-      event.preventDefault();
-      return console.log('no Action selected');
+      return alert('No action selected');
     }
     const freqPickerToNum = freqPicker.map(x => {
       return parseInt(x || 0);
     });
     const sizePickerToNum = sizePicker.map(x => {
-      return parseInt(x || 0);
+      return parseFloat(x || 0);
     })
     if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
-      event.preventDefault();
-      return console.log('no Frequency selected');
+      return alert('No frequency selected');
     }
     if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
-      event.preventDefault();
-      return console.log('total Frequency greater than 100');
+      return alert('Total Frequency greater than 100');
     }
+    console.log(sizePickerToNum);
     const raiseArray = freqPickerToNum.slice(2);
-    const newRange = range;
-    const thisCombo = newRange.betRange[currentCombo];
+    const thisCombo = cloneDeep(range.betRange[combo]);
     if (foldPicker) thisCombo.foldFreq = freqPickerToNum[0] || 0;
     if (callPicker) thisCombo.callFreq = freqPickerToNum[1] || 0;
     if (raisePicker) {
@@ -151,13 +159,47 @@ function App() {
         }
       });
     }
-    newRange.betRange[currentCombo] = thisCombo;
+
+    const compareObjects = (a, b) => {
+      if (a === b) return true;
+
+      if (typeof a != 'object' || typeof b != 'object' || a == null || b == null) return false;
+
+      let keysA = Object.keys(a), keysB = Object.keys(b);
+
+      if (keysA.length != keysB.length) return false;
+
+      for (let key of keysA) {
+        if (!keysB.includes(key)) return false;
+
+        if (typeof a[key] === 'function' || typeof b[key] === 'function') {
+          if (a[key].toString() != b[key].toString()) return false;
+        } else {
+          if (!compareObjects(a[key], b[key])) return false;
+        }
+      }
+
+      return true;
+    }
+
+    if (compareObjects(thisCombo, range.betRange[combo])) {
+      thisCombo.foldFreq = 0;
+      thisCombo.callFreq = 0;
+      thisCombo.raise = {freq: 0, size:0}
+    }
+
+    const newRange = range;
+    newRange.betRange[combo] = thisCombo;
     setRenderToggle(!renderToggle);
     pushSelectedToRange(newRange);
   }
 
+  const handleMouseUp = () => {
+    setMouseDown(false);
+  }
+
   return (
-    <MainContainer>
+    <MainContainer onMouseUp={handleMouseUp}>
       <AppRow>
         <ButtonLabel>
           <DispButton type='radio' name='radio' value='true' checked={displayActive===true} onChange={handleDisplayClick} />
@@ -175,6 +217,8 @@ function App() {
           setCombo={setCombo}
           displayActive={displayActive}
           handleFreqInput={handleFreqInput}
+          isMouseDown={isMouseDown}
+          setMouseDown={setMouseDown}
         />
         <Dash
           range={range}
@@ -204,6 +248,7 @@ function App() {
         />
       </AppRow>
     </MainContainer>
+
   );
 }
 

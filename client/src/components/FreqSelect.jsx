@@ -54,7 +54,7 @@ function FreqSelect(props) {
 
         <FreqButtonRow style={{marginTop: "15px"}}>
           <ControlButton onClick={props.handleLoadClick}>LOAD</ControlButton>
-          <ControlButton>SUBMIT</ControlButton>
+          <ControlButton onClick={props.handleSubmitClick}>SUBMIT</ControlButton>
         </FreqButtonRow>
       </SelectButtonContainer>
       <SingleBar {...props}/>

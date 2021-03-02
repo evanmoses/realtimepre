@@ -10,6 +10,7 @@ function Rangechart(props) {
   const [randomNum, setRandomNum] = useState(Math.ceil(Math.random() * 100))
   const [action, setAction] = useState('');
 
+
   const handleComboClick = () => {
     if (!showRandomizer) {
       setAction(decideAction());
@@ -25,6 +26,11 @@ function Rangechart(props) {
       setRandomNum(Math.ceil(Math.random() * 100));
       clearTimeout(randomizerDelay);
     }
+  }
+
+  const dragSelect = (e) => {
+    props.setMouseDown(true);
+    props.handleFreqInput(props.currentCombo);
   }
 
   const decideAction = () => {
@@ -57,8 +63,10 @@ function Rangechart(props) {
 
   const handleMouseEnter = (e, index) => {
     const currentComboIndex = index;
-    props.setCombo(currentComboIndex);
-  }
+    props.setCombo(currentComboIndex, (combo) => {
+      props.isMouseDown && props.handleFreqInput(combo);
+    });
+  };
 
   const fillSquares = (i) => {
     if (props.range === null) {
@@ -87,7 +95,7 @@ function Rangechart(props) {
             <ComboSquare
               key={combo}
               onMouseEnter={(e) => handleMouseEnter(e, index)}
-              onClick={props.displayActive ? handleComboClick : props.handleFreqInput}
+              onMouseDown={props.displayActive ? handleComboClick : dragSelect}
             >
               <ComboText><div><p>{combo}</p></div></ComboText>
               {fillSquares(index)}
