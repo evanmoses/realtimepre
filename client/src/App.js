@@ -75,20 +75,21 @@ function App() {
     return () => source.cancel('axios request cancelled');
   }, [selectedRange]);
 
+  const pushSelectedToRange = useCallback((newRange) => {
+    setRange(newRange);
+  }, []);
+
   useEffect(() => {
     getRange();
   }, [getRange]);
+
 
   // manage state state of frequency buttons when creating new range
   const [foldPicker, setFoldPicker] = useState(false);
   const [callPicker, setCallPicker] = useState(false);
   const [raisePicker, setRaisePicker] = useState(false);
-  const [freqPicker, setFreqPicker] = useState([100,0,12,19,46,80]);
-  const [sizePicker, setSizePicker] = useState([3,10,20,30]);
-
-  const handleFreqInput = event => {
-    console.log(freqPicker);
-  }
+  const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
+  const [sizePicker, setSizePicker] = useState([3,0,0,0]);
 
   const handleFoldClick = event => {
     setFoldPicker(prevCheck => !prevCheck);
@@ -107,15 +108,48 @@ function App() {
     let newArr = [...freqPicker];
     newArr[index] = newFreq;
     setFreqPicker(newArr);
-    console.log(freqPicker);
   }
 
   const handleSizeChange = (event, index) => {
-    const newFreq = event.target.value;
+    const newSize = event.target.value;
     let newArr = [...sizePicker];
-    newArr[index] = newFreq;
+    newArr[index] = newSize;
     setSizePicker(newArr);
-    console.log(sizePicker);
+  }
+
+  const handleFreqInput = event => {
+    if (!foldPicker & !callPicker & !raisePicker) {
+      event.preventDefault();
+      return console.log('no Action selected');
+    }
+    const freqPickerToNum = freqPicker.map(x => {
+      return parseInt(x || 0);
+    });
+    const sizePickerToNum = sizePicker.map(x => {
+      return parseInt(x || 0);
+    })
+    if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
+      event.preventDefault();
+      return console.log('no Frequency selected');
+    }
+    if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
+      event.preventDefault();
+      return console.log('total Frequency greater than 100');
+    }
+    const raiseArray = freqPickerToNum.slice(2);
+    const newRange = range;
+    const thisCombo = newRange.betRange[currentCombo];
+    if (foldPicker) thisCombo.foldFreq = freqPickerToNum[0] || 0;
+    if (callPicker) thisCombo.callFreq = freqPickerToNum[1] || 0;
+    if (raisePicker) {
+      raiseArray.forEach((element, index) => {
+        if (raiseArray[index] !== 0) {
+          return thisCombo.raise[index] = {freq: raiseArray[index], size: sizePickerToNum[index]};
+        }
+      });
+    }
+    newRange.betRange[currentCombo] = thisCombo;
+    pushSelectedToRange(newRange);
   }
 
   return (

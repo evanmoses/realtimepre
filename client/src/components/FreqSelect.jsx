@@ -10,7 +10,7 @@ function FreqSelect(props) {
         <FreqButtonRow>
           <FreqButton color="#85c2c9" onClick={props.handleFoldClick} className={props.foldPicker && 'active'}>FOLD</FreqButton>
           <InputContainer>
-            <FreqInput type="text" value={props.freqPicker[0]} onChange={event => props.handleFreqChange(event, 0)} /><span>%</span>
+            <FreqInput type="text" value={props.freqPicker[0]}  onChange={event => props.handleFreqChange(event, 0)} /><span>%</span>
           </InputContainer>
           <FreqButton style={{marginLeft: "20px"}} color="#aecf84" onClick={props.handleCallClick} className={props.callPicker && 'active'}>CALL</FreqButton>
           <InputContainer>
