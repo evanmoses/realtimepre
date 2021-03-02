@@ -3,10 +3,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
+import withReactContent from 'sweetalert2-react-content';
 
 import Rangechart from './components/Rangechart.jsx';
 import Dash from './components/Dash.jsx';
 import PostPopUp from './components/PostPopUp.jsx';
+import AlertModal from './components/AlertModal.jsx';
+
+const MySwal = withReactContent(AlertModal);
 
 function App() {
   //toggle two main app modes 'create range' and 'display range'
@@ -84,16 +88,11 @@ function App() {
     setPostMessage('login');
   };
 
-  const postRange = () => {
+  const postRange = useCallback( async ()  => {
     setPostMessage('confirm');
-  };
+  }, []);
 
   // const postRange = useCallback( async () => {
-  //   try {
-  //     setPostMessage('password');
-  //     const pass =
-  //     process.env.REACT_APP_POST_PASS;
-  //   }
   // }, [])
 
   const pushSelectedToRange = useCallback(async (newRange) => {
@@ -143,7 +142,8 @@ function App() {
 
   const handleFreqInput = combo => {
     if (!foldPicker & !callPicker & !raisePicker) {
-      return alert('No action selected');
+      return MySwal.fire(<p>No Action Selected</p>)
+        .then(setMouseDown(false));
     }
     const freqPickerToNum = freqPicker.map(x => {
       return parseInt(x || 0);
@@ -152,10 +152,12 @@ function App() {
       return parseFloat(x || 0);
     })
     if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
-      return alert('No frequency selected');
+      return MySwal.fire(<p>No Frequency Selected</p>)
+        .then(setMouseDown(false));
     }
     if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
-      return alert('Total Frequency greater than 100');
+      return MySwal.fire(<p>Total Frequency Greater Than 100</p>)
+        .then(setMouseDown(false));
     }
     console.log(sizePickerToNum);
     const raiseArray = freqPickerToNum.slice(2);
