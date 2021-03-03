@@ -43,7 +43,7 @@ function PostPopUp(props) {
 }
 
 const Container = styled.div`
-  background-color: rgba(64, 64, 64, 0.8);
+  background-color: #414141;
   padding: 25px;
   position: absolute;
   top: 50%;
@@ -104,6 +104,9 @@ const Button = styled.button`
 
 const ConfirmButton = styled(Button)`
   background-color: #702227;
+  &:hover {
+    #702227;
+  }
 ;`
 
 

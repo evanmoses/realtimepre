@@ -1,0 +1,59 @@
+@import '~@sweetalert2/themes/dark/dark.scss';
+
+// MAIN MODAL
+$swal2-background: rgba(64, 64, 64, 0.8);
+$swal2-container-padding: 25px;
+
+// HEADER
+$swal2-header-padding: 0;
+
+// TITLE
+.swal2-title {
+  font-weight: 400 !important;
+}
+$swal2-title-font-size: 1.4rem;
+$swal2-title-margin: 0 0 10px 0;
+
+// ACTIONS CONTAINER
+$swal2-actions-margin: 10px 0 0 0;
+$swal2-actions-padding: 0;
+
+// BUTTONS
+.swal2-styled {
+  width: 120px;
+}
+$swal12-focus-box-shadow: none;
+$swal2-button-padding: 8px 0;
+$swal2-button-margin: 0;
+
+// CONFIRM BUTTON
+$swal2-confirm-button-background-color: #525252;
+$swal2-confirm-button-color: #d4d4d4;
+$swal2-confirm-button-font-size: 14px;
+
+// CANCEL BUTTON
+$swal2-cancel-button-background-color: #525252;
+$swal2-cancel-button-color: #d4d4d4;
+$swal2-cancel-button-font-size: 14px;
+
+// INPUT
+.swal2-input {
+  text-align: center;
+
+  &::placeholder {
+    color: #d4d4d4;
+ }
+}
+$swal2-input-height: 21px;
+$swal2-input-focus-border: 0;
+$swal2-input-focus-box-shadow: 0 0 0 2px #525252;
+$swal2-input-font-size: 18px;
+$swal2-input-width: 100%;
+$swal2-input-background: #d4d4d4;
+$swal2-input-color: #414141;
+$swal2-input-border-radius: 3px;
+$swal2-input-box-shadow: none;
+$swal2-input-margin: 15px 0;
+$swal2-input-padding: 1px 2px;
+
+@import '~sweetalert2/src/sweetalert2';

@@ -9,7 +9,8 @@ import Rangechart from './components/Rangechart.jsx';
 import Dash from './components/Dash.jsx';
 import PostPopUp from './components/PostPopUp.jsx';
 
-import AlertModal from './lib/AlertModal.jsx';
+import AlertModal from './lib/AlertModal.js';
+import './lib/AlertModal.scss'
 
 const MySwal = withReactContent(AlertModal);
 
@@ -143,7 +144,7 @@ function App() {
 
   const handleFreqInput = combo => {
     if (!foldPicker & !callPicker & !raisePicker) {
-      return MySwal.fire(<p>No Action Selected</p>)
+      return MySwal.fire(<div>No Action Selected</div>)
         .then(setMouseDown(false));
     }
     const freqPickerToNum = freqPicker.map(x => {
@@ -153,11 +154,11 @@ function App() {
       return parseFloat(x || 0);
     })
     if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
-      return MySwal.fire(<p>No Frequency Selected</p>)
+      return MySwal.fire(<div>No Frequency Selected</div>)
         .then(setMouseDown(false));
     }
     if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
-      return MySwal.fire(<p>Total Frequency Greater Than 100</p>)
+      return MySwal.fire(<div>Total Frequency Greater Than 100</div>)
         .then(setMouseDown(false));
     }
     console.log(sizePickerToNum);
