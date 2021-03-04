@@ -57,6 +57,9 @@ function Rangechart(props) {
         return freqArray.slice(0,index + 1).reduce((a,b) => a+b);
       });
       const actionIndex = totalFreqArray.findIndex((n) => n > randomNum);
+      if (c[actionIndex] === undefined) {
+        return 'N/A';
+      }
       return <div>RAISE<br/>{c[actionIndex].size} BB</div>
     }
   }
