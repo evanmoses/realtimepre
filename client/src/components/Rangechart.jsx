@@ -69,9 +69,6 @@ function Rangechart(props) {
   };
 
   const fillSquares = (i) => {
-    if (props.range === null) {
-      return <FreqFill />;
-    }
     const x = props.range.betRange[i];
     let y = [];
     x.raise ? y = x.raise : y = null;
@@ -90,14 +87,14 @@ function Rangechart(props) {
   return (
     <RangeBox>
       <RangeContainer>
-        {combos.map((combo, index) => {
+        {props.range.betRange.map((combo, index) => {
           return (
             <ComboSquare
-              key={combo}
+              key={props.range.betRange[index].hand}
               onMouseEnter={(e) => handleMouseEnter(e, index)}
               onMouseDown={props.displayActive ? handleComboClick : dragSelect}
             >
-              <ComboText><div><p>{combo}</p></div></ComboText>
+              <ComboText><div><p>{props.range.betRange[index].hand}</p></div></ComboText>
               {fillSquares(index)}
             </ComboSquare>
           )

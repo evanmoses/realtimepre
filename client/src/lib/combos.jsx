@@ -13,10 +13,10 @@ const lines = cards.map((x,y,z) => {
   return lineArray;
 });
 
-const combos = lines.flat();
+const unsuited = lines.flat();
 
 // correct ordering, add offsuit
-const orderCombos = combos.map(x => {
+const orderCombos = unsuited.map(x => {
   const matrix = x.split('').reduce((a,b) => {
     if (cardValue(a) > cardValue(b)) {
       return (a + b) + 'o';
@@ -31,11 +31,30 @@ const orderCombos = combos.map(x => {
 });
 
 // add suited combos
-const range = orderCombos.map(y => {
+const combos = orderCombos.map(y => {
   if (y.length < 3 && y.charAt(0) !== y.charAt(1)) {
     return y + 's';
   }
   return y;
 });
 
-export default range;
+const arrayNums = [...Array(169).keys()]
+
+const defaultArray = arrayNums.map((x, i) => {
+  var o = Object.assign({}, x)
+  o.hand = combos[i];
+  o.foldFreq = 0;
+  o.callFreq = 0;
+  o.raise = [];
+  return o;
+})
+
+const defaultRange = {
+  heroPos: '',
+  vilPos: '',
+  facing: '',
+  stackDepth: 100,
+  betRange: defaultArray,
+}
+
+export default defaultRange;

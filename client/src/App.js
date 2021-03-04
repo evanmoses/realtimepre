@@ -7,10 +7,10 @@ import withReactContent from 'sweetalert2-react-content';
 
 import Rangechart from './components/Rangechart.jsx';
 import Dash from './components/Dash.jsx';
-import PostPopUp from './components/PostPopUp.jsx';
 
 import AlertModal from './lib/AlertModal.js';
 import './lib/AlertModal.scss'
+import defaultRange from './lib/combos.jsx';
 
 const MySwal = withReactContent(AlertModal);
 
@@ -24,7 +24,7 @@ function App() {
   }
 
   // track current combo being hovered on rangechart
-  const [currentCombo, setCombo] = useStateWithCallbackLazy(null);
+  const [currentCombo, setCombo] = useStateWithCallbackLazy(0);
 
   //manage state of radio butotns to select range scenario
   const [heroPosition, setHeroPosition] = useState('BB');
@@ -47,7 +47,6 @@ function App() {
   const handleHeroChange = event => {
     const value = event.target.value;
     setHeroPosition(value);
-    console.log(value);
     displayActive && updateRange(value, villainPosition, facingAction);
   }
 
@@ -64,7 +63,7 @@ function App() {
   }
 
   // manage state of range pulled from database / edited by user
-  const [range, setRange] = useState(null);
+  const [range, setRange] = useState(defaultRange);
 
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
@@ -76,23 +75,86 @@ function App() {
         stackDepth: 100
       }}, {cancelToken: source.token});
       const rangeResponse = await response.data;
+      console.log(rangeResponse);
+      if (rangeResponse === null) {
+        return setRange(defaultRange)
+      }
       setRange(rangeResponse);
     } catch (error) {
       console.log(error);
     }
     return () => source.cancel('axios request cancelled');
-  }, [selectedRange, displayActive]);
-
-
-  const [postMessage, setPostMessage] = useState('');
+  }, [selectedRange]);
 
   const handleSubmitClick = () => {
-    setPostMessage('login');
+    MySwal.fire({
+      title: 'Enter password to post range',
+      input: 'password',
+      confirmButtonText: 'Submit',
+      showCancelButton: true,
+      reverseButtons: true,
+      preConfirm: (value) => {
+        if (value !== process.env.REACT_APP_POST_PASS) {
+          MySwal.showValidationMessage('Incorrect Password')
+        } else {
+          checkForRange();
+        }
+      }
+    });
   };
 
-  const postRange = useCallback( async ()  => {
-    setPostMessage('confirm');
-  }, []);
+  const checkForRange = async () => {
+    const source = axios.CancelToken.source();
+    try {
+      const response = await axios.get('http://localhost:9000/ranges', {params: {
+        heroPos : heroPosition,
+        vilPos : villainPosition,
+        facing: facingAction,
+        stackDepth: 100,
+      }}, {cancelToken: source.token});
+      console.log(response.data);
+      if (response.data !== null) {
+        return MySwal.fire({
+          title: 'Range for this scenario already exists, press confirm to overwrite',
+          showCancelButton: true,
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            postRange();
+          } else if (result.isDismissed) {
+            MySwal.fire({
+              title: 'Range not Posted',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      } else {
+        postRange();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return () => source.cancel('axios request cancelled');
+  };
+
+  const postRange = () => {
+    const source = axios.CancelToken.source();
+    try {
+      axios.put('http://localhost:9000/ranges', {
+        _id: range._id,
+        heroPos: heroPosition,
+        vilPos: villainPosition,
+        facing: facingAction,
+        stackDepth: 100,
+        betRange: range.betRange,
+      }, {cancelToken: source.token})
+        .then(MySwal.fire('Success'));
+    } catch (error) {
+      console.log(error);
+    }
+    return () => source.cancel('axios request cancelled');
+  }
 
   // const postRange = useCallback( async () => {
   // }, [])
@@ -161,7 +223,6 @@ function App() {
       return MySwal.fire(<div>Total Frequency Greater Than 100</div>)
         .then(setMouseDown(false));
     }
-    console.log(sizePickerToNum);
     const raiseArray = freqPickerToNum.slice(2);
     const thisCombo = cloneDeep(range.betRange[combo]);
     if (foldPicker) thisCombo.foldFreq = freqPickerToNum[0] || 0;
@@ -202,7 +263,7 @@ function App() {
       thisCombo.raise = {freq: 0, size:0}
     }
 
-    const newRange = range;
+    const newRange = cloneDeep(range);
     newRange.betRange[combo] = thisCombo;
     setRenderToggle(!renderToggle);
     pushSelectedToRange(newRange);
@@ -262,7 +323,6 @@ function App() {
           handleSubmitClick={handleSubmitClick}
         />
       </AppRow>
-      {!postMessage ? null : <PostPopUp postMessage={postMessage} postRange={postRange} setPostMessage={setPostMessage}/>}
     </MainContainer>
 
   );

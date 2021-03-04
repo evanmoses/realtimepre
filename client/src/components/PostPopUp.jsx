@@ -32,6 +32,8 @@ function PostPopUp(props) {
           <Button onClick={reset}>Cancel</Button>
           <Button type='submit'>Submit</Button>
         </Login>}
+
+        
       {props.postMessage === 'confirm' &&
         <Confirm>
           <p>Range for this scenario already exists, press confirm to overwrite</p>
