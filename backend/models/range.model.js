@@ -15,6 +15,8 @@ const rangeSchema = new mongoose.Schema({
   }],
 });
 
+rangeSchema.plugin(require('mongoose-create-or-update'));
+
 const Range = mongoose.model('Range', rangeSchema);
 
 module.exports = Range;
