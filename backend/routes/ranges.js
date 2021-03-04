@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
   const newRange = new Range({
     heroPos, vilPos, facing, stackDepth, betRange,
   });
-
+  res.send();
   if (!rangeExists) {
     newRange.save();
   } else {

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {useStateWithCallbackLazy} from 'use-state-with-callback';
-import combos from '../lib/combos.jsx';
 import ActionRandomizer from './ActionRandomizer.jsx';
 
 function Rangechart(props) {

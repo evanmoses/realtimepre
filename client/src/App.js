@@ -37,11 +37,6 @@ function App() {
     setSelectedRange([a,b,c]);
   }
 
-  // load range from db to edit in create range mode
-  const handleLoadClick = event => {
-    updateRange(heroPosition, villainPosition, facingAction);
-  }
-
   // change handlers for radio selectors, trigger updateRange()
   // conditionally on display state
   const handleHeroChange = event => {
@@ -75,7 +70,6 @@ function App() {
         stackDepth: 100
       }}, {cancelToken: source.token});
       const rangeResponse = await response.data;
-      console.log(rangeResponse);
       if (rangeResponse === null) {
         return setRange(defaultRange)
       }
@@ -85,6 +79,20 @@ function App() {
     }
     return () => source.cancel('axios request cancelled');
   }, [selectedRange]);
+
+  // load range from db to edit in create range mode
+  const handleLoadClick = event => {
+    updateRange(heroPosition, villainPosition, facingAction);
+  }
+
+  // reset range to empty in create range mode
+  const handleResetClick = event => {
+    let resetRange = defaultRange;
+    resetRange.heroPos = heroPosition;
+    resetRange.vilPos = villainPosition;
+    resetRange.facing = facingAction;
+    pushSelectedToRange(resetRange);
+  }
 
   const handleSubmitClick = () => {
     MySwal.fire({
@@ -112,7 +120,6 @@ function App() {
         facing: facingAction,
         stackDepth: 100,
       }}, {cancelToken: source.token});
-      console.log(response.data);
       if (response.data !== null) {
         return MySwal.fire({
           title: 'Range for this scenario already exists, press confirm to overwrite',
@@ -138,25 +145,36 @@ function App() {
     return () => source.cancel('axios request cancelled');
   };
 
-  const postRange = () => {
+  const postRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      axios.post('http://localhost:9000/ranges', {
+      const response = await axios.post('http://localhost:9000/ranges', {
         heroPos: heroPosition,
         vilPos: villainPosition,
         facing: facingAction,
         stackDepth: 100,
         betRange: range.betRange,
-      }, {cancelToken: source.token})
-        .then(MySwal.fire('Success'));
-    } catch (error) {
+      }, {cancelToken: source.token});
+      const didPost = await response.status;
+      console.log(didPost);
+      didPost === 200 && MySwal.fire({
+        title: 'Nice!',
+        text: 'Range has been posted to Database',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+    }
+    catch (error){
+      MySwal.fire({
+        title: 'Error Posting to Database',
+        text: 'Please try again later',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
       console.log(error);
     }
     return () => source.cancel('axios request cancelled');
   }
-
-  // const postRange = useCallback( async () => {
-  // }, [])
 
   const pushSelectedToRange = useCallback(async (newRange) => {
     await setRange(newRange);
@@ -173,7 +191,7 @@ function App() {
   const [raisePicker, setRaisePicker] = useState(false);
   const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
   const [sizePicker, setSizePicker] = useState([3,0,0,0]);
-  const [renderToggle, setRenderToggle] = useState(false);
+  const [renderTrigger, setRenderTrigger] = useState(false);
   const [isMouseDown, setMouseDown] = useState(false);
 
 
@@ -224,15 +242,18 @@ function App() {
     }
     const raiseArray = freqPickerToNum.slice(2);
     const thisCombo = cloneDeep(range.betRange[combo]);
-    if (foldPicker) thisCombo.foldFreq = freqPickerToNum[0] || 0;
-    if (callPicker) thisCombo.callFreq = freqPickerToNum[1] || 0;
-    if (raisePicker) {
+    foldPicker ?
+      thisCombo.foldFreq = freqPickerToNum[0] || 0 :
+      thisCombo.foldFreq = 0;
+    callPicker ? thisCombo.callFreq = freqPickerToNum[1] || 0 :
+      thisCombo.callFreq = 0;
+    raisePicker ?
       raiseArray.forEach((element, index) => {
         if (raiseArray[index] !== 0) {
           return thisCombo.raise[index] = {freq: raiseArray[index], size: sizePickerToNum[index]};
         }
-      });
-    }
+      }) :
+      thisCombo.raise = [{freq: 0, size: 0}]
 
     const compareObjects = (a, b) => {
       if (a === b) return true;
@@ -264,7 +285,7 @@ function App() {
 
     const newRange = cloneDeep(range);
     newRange.betRange[combo] = thisCombo;
-    setRenderToggle(!renderToggle);
+    setRenderTrigger(prevState => !prevState);
     pushSelectedToRange(newRange);
   }
 
@@ -320,6 +341,7 @@ function App() {
           handleFreqChange={handleFreqChange}
           handleSizeChange={handleSizeChange}
           handleSubmitClick={handleSubmitClick}
+          handleResetClick={handleResetClick}
         />
       </AppRow>
     </MainContainer>

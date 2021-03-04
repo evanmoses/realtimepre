@@ -54,6 +54,7 @@ function FreqSelect(props) {
 
         <FreqButtonRow style={{marginTop: "15px"}}>
           <ControlButton onClick={props.handleLoadClick}>LOAD</ControlButton>
+          <ControlButton onClick={props.handleResetClick}>RESET</ControlButton>
           <ControlButton onClick={props.handleSubmitClick}>SUBMIT</ControlButton>
         </FreqButtonRow>
       </SelectButtonContainer>
@@ -95,7 +96,7 @@ const ControlButton = styled.div`
   font-size: 14px;
   padding: 8px 0;
   font-weight: 500;
-  width: 120px;
+  width: 90px;
   border-radius: 5px;
   cursor: pointer;
   background-color: #414141;
