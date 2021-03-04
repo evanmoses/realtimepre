@@ -141,8 +141,7 @@ function App() {
   const postRange = () => {
     const source = axios.CancelToken.source();
     try {
-      axios.put('http://localhost:9000/ranges', {
-        _id: range._id,
+      axios.post('http://localhost:9000/ranges', {
         heroPos: heroPosition,
         vilPos: villainPosition,
         facing: facingAction,

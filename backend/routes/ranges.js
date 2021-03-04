@@ -15,23 +15,25 @@ router.get('/', (req, res) => {
   });
 });
 
-router.put('/', (req, res) => {
-  const obj = req.body;
-  console.log(req.body._id);
-  console.log(req.body);
-  const newRange = new Range({
-    heroPos: req.body.heroPos,
-    vilPos: req.body.vilPos,
-    facing: req.body.facing,
-    stackDepth: req.body.stackDepth,
-    betRange: req.body.betRange,
+router.post('/', (req, res) => {
+  const {
+    heroPos, vilPos, facing, stackDepth, betRange,
+  } = req.body;
+
+  const rangeExists = Range.exists({
+    heroPos, vilPos, facing, stackDepth,
   });
-  if (!obj._id) {
+
+  const newRange = new Range({
+    heroPos, vilPos, facing, stackDepth, betRange,
+  });
+
+  if (!rangeExists) {
     newRange.save();
   } else {
-    const id = obj._id;
-    Range.findOneAndDelete({ _id: id }, (error, object) => console.log(object));
-    newRange.save();
+    Range.findOneAndDelete({
+      heroPos, vilPos, facing, stackDepth,
+    }).then(newRange.save());
   }
 });
 
