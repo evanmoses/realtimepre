@@ -45,7 +45,7 @@ function FreqBars(props) {
               <ActionCol key={`ActionCol:${index}`}>
                 <FreqText>{raise.freq}%</FreqText>
                 <Bar color={raiseColorPicker(index)} height={`${raise.freq*1.5}px`}>
-                  <FreqText>{raise.size}<span>BB</span></FreqText>
+                  <FreqText>{raise.size}<div>BB</div></FreqText>
                 </Bar>
               </ActionCol>
               )
@@ -93,7 +93,7 @@ const FreqText = styled.div`
   font-size: 12px;
   font-weight: 500;
 
-  & > span {
+  & > div {
     font-size: 8px;
   }
 ;`

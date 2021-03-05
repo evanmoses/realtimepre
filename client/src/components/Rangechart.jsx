@@ -80,8 +80,8 @@ function Rangechart(props) {
         {y[2] ? <Freq color="#d19184" height={`${y[2].freq/100*29}px`} /> : null}
         {y[1] ? <Freq color="#d184ce" height={`${y[1].freq/100*29}px`} /> : null}
         {y[0] ? <Freq color="#a484d1" height={`${y[0].freq/100*29}px`} /> : null}
-        {x.callFreq ? <Freq color="#aecf84" height={`${x.callFreq/100*30}px`} /> : null}
-        {x.foldFreq ? <Freq color="#85c2c9" height={`${x.foldFreq/100*30}px`} /> : null}
+        {x.callFreq ? <Freq color="#aecf84" height={`${x.callFreq/100*29}px`} /> : null}
+        {x.foldFreq ? <Freq color="#85c2c9" height={`${x.foldFreq/100*29}px`} /> : null}
       </FreqFill>
     )
   }
@@ -168,9 +168,8 @@ const ComboText = styled.div`
     bottom: 0;
   }
   & p {
-    background-color: rgba(82, 82, 82, 0.15);
+    background-color: rgba(82, 82, 82, .5);
     line-height: 0.6rem;
-    border-radius: 2px;
   }
 ;`
 
