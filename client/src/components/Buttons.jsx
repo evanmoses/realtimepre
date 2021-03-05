@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 function Buttons(props) {
 
   const positionArray = ['UTG', 'HJ', 'CO', 'BTN', 'SB', 'BB']
-  const actionArray = ['N/A', 'LIMP', 'RAISE', '3BET', '4BET', 'JAM']
+  const actionArray = ['N/A', 'LIMP', 'RAISE', '3BET', 'SQZ', '4BET', 'JAM']
 
   return (
     <ButtonContainer>
@@ -36,7 +36,7 @@ function Buttons(props) {
           return (
             <ButtonLabel key={`facing${action}`}>
               <CheckButton type='radio' name='action' value={action} checked={props.facingAction===action} onChange={props.handleActionChange} />
-              <span>{action}</span>
+              <span style={{width:'51.5px'}}>{action}</span>
             </ButtonLabel>
           )
         })}
