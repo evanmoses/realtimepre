@@ -49,8 +49,8 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-let mongoosePort = process.env.CLOUD_DB;
-mongoosePort = process.env.LOCAL_DB;
+const mongoosePort = process.env.CLOUD_DB;
+// mongoosePort = process.env.LOCAL_DB;
 mongoose.connect(mongoosePort, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

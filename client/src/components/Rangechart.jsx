@@ -76,10 +76,10 @@ function Rangechart(props) {
     x.raise ? y = x.raise : y = null;
     return (
       <FreqFill>
-        {y[3] ? <Freq color="#d1b684" height={`${y[3].freq/100*30}px`} /> : null}
-        {y[2] ? <Freq color="#d19184" height={`${y[2].freq/100*30}px`} /> : null}
-        {y[1] ? <Freq color="#d184ce" height={`${y[1].freq/100*30}px`} /> : null}
-        {y[0] ? <Freq color="#a484d1" height={`${y[0].freq/100*30}px`} /> : null}
+        {y[3] ? <Freq color="#d1b684" height={`${y[3].freq/100*29}px`} /> : null}
+        {y[2] ? <Freq color="#d19184" height={`${y[2].freq/100*29}px`} /> : null}
+        {y[1] ? <Freq color="#d184ce" height={`${y[1].freq/100*29}px`} /> : null}
+        {y[0] ? <Freq color="#a484d1" height={`${y[0].freq/100*29}px`} /> : null}
         {x.callFreq ? <Freq color="#aecf84" height={`${x.callFreq/100*30}px`} /> : null}
         {x.foldFreq ? <Freq color="#85c2c9" height={`${x.foldFreq/100*30}px`} /> : null}
       </FreqFill>

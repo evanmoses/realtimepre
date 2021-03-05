@@ -247,13 +247,17 @@ function App() {
       thisCombo.foldFreq = 0;
     callPicker ? thisCombo.callFreq = freqPickerToNum[1] || 0 :
       thisCombo.callFreq = 0;
-    raisePicker ?
-      raiseArray.forEach((element, index) => {
+    if (raisePicker) {
+      thisCombo.raise = [{freq: 0, size: 0}];
+      raiseArray.forEach(async (element, index) => {
         if (raiseArray[index] !== 0) {
           return thisCombo.raise[index] = {freq: raiseArray[index], size: sizePickerToNum[index]};
         }
-      }) :
+      })
+    } else {
       thisCombo.raise = [{freq: 0, size: 0}]
+    }
+
 
     const compareObjects = (a, b) => {
       if (a === b) return true;
