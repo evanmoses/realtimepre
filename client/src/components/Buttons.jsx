@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 function Buttons(props) {
 
   const positionArray = ['UTG', 'HJ', 'CO', 'BTN', 'SB', 'BB']
-  const actionArray = ['N/A', 'LIMP', 'RAISE', '3BET', 'SQZ', '4BET', 'JAM']
+  const actionArray = ['N/A', 'CC', 'RAISE', '3BET', 'SQZ', '4BET', 'JAM']
 
   return (
     <ButtonContainer>
