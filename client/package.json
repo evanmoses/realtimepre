@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://evanmoses.com/realtimepre/client",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@sweetalert2/themes": "^4.0.3",
