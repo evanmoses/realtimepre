@@ -30,7 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/testbackend', testBackendRouter);
 app.use('/ranges', rangesRouter);
 
 // catch 404 and forward to error handler
@@ -64,4 +63,12 @@ connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
 });
 
-module.exports = app;
+let port = process.env.PORT;
+// port = ''
+if (port == null || port === '') {
+  port = 9000;
+}
+
+app.listen(port, () => {
+  console.log('server started successfully');
+});
