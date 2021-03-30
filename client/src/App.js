@@ -114,7 +114,7 @@ function App() {
   const checkForRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.get('http://localhost:9000/ranges', {params: {
+      const response = await axios.get('http://evanmoses.com:9000/ranges', {params: {
         heroPos : heroPosition,
         vilPos : villainPosition,
         facing: facingAction,
@@ -148,7 +148,7 @@ function App() {
   const postRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.post('http://localhost:9000/ranges', {
+      const response = await axios.post('http://evanmoses.com:9000/ranges', {
         heroPos: heroPosition,
         vilPos: villainPosition,
         facing: facingAction,
