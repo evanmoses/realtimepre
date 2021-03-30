@@ -63,7 +63,7 @@ function App() {
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.get('https://evanmoses.com:9000/ranges', {params: {
+      const response = await axios.get('https://evanmoses.com/realtimepre/backend/ranges', {params: {
         heroPos : selectedRange[0],
         vilPos : selectedRange[1],
         facing: selectedRange[2],
@@ -114,7 +114,7 @@ function App() {
   const checkForRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.get('https://evanmoses.com:9000/ranges', {params: {
+      const response = await axios.get('https://evanmoses.com/realtimepre/backend/ranges', {params: {
         heroPos : heroPosition,
         vilPos : villainPosition,
         facing: facingAction,
@@ -148,7 +148,7 @@ function App() {
   const postRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.post('https://evanmoses.com:9000/ranges', {
+      const response = await axios.post('https://evanmoses.com/realtimepre/backend/ranges', {
         heroPos: heroPosition,
         vilPos: villainPosition,
         facing: facingAction,
