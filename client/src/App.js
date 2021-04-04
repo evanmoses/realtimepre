@@ -11,7 +11,7 @@ import Dash from './components/Dash.jsx';
 import AlertModal from './lib/AlertModal.js';
 import './lib/AlertModal.scss';
 import defaultRange from './lib/combos.jsx';
-import compareObjects from '.lib/compareObjects.js';
+import compareObjects from './lib/compareObjects.js';
 
 const MySwal = withReactContent(AlertModal);
 
