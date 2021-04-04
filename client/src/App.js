@@ -9,8 +9,9 @@ import Rangechart from './components/Rangechart.jsx';
 import Dash from './components/Dash.jsx';
 
 import AlertModal from './lib/AlertModal.js';
-import './lib/AlertModal.scss'
+import './lib/AlertModal.scss';
 import defaultRange from './lib/combos.jsx';
+import compareObjects from '.lib/compareObjects.js';
 
 const MySwal = withReactContent(AlertModal);
 
@@ -18,27 +19,39 @@ function App() {
   //toggle two main app modes 'create range' and 'display range'
   const [displayActive, setDisplay] = useState(true);
 
-  const handleDisplayClick = event => {
-    const value = (event.target.value === "true")
-    setDisplay(value);
-  }
-
   // track current combo being hovered on rangechart
   const [currentCombo, setCombo] = useStateWithCallbackLazy(0);
 
-  //manage state of radio butotns to select range scenario
+  //manage state of radio buttons to select range scenario
   const [heroPosition, setHeroPosition] = useState('BB');
   const [villainPosition, setVillainPosition] = useState('BTN');
   const [facingAction, setFacingAction] = useState('N/A');
   const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A']);
 
+  // manage state of range pulled from database / edited by user
+  const [range, setRange] = useState(defaultRange);
+
+  // manage state state of frequency buttons when creating new range
+  const [foldPicker, setFoldPicker] = useState(false);
+  const [callPicker, setCallPicker] = useState(false);
+  const [raisePicker, setRaisePicker] = useState(false);
+  const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
+  const [sizePicker, setSizePicker] = useState([3,0,0,0]);
+  const [renderTrigger, setRenderTrigger] = useState(false);
+  const [isMouseDown, setMouseDown] = useState(false);
+
+  // toggle two main app states: create / display
+  const handleDisplayClick = event => {
+    const value = (event.target.value === "true")
+    setDisplay(value);
+  }
+
+  // DISPLAY RANGE FUNCTIONALITY
   // fetch new range based on value of radio selector buttons
   const updateRange = (a, b, c) => {
     setSelectedRange([a,b,c]);
   }
 
-  // change handlers for radio selectors, trigger updateRange()
-  // conditionally on display state
   const handleHeroChange = event => {
     const value = event.target.value;
     setHeroPosition(value);
@@ -57,8 +70,9 @@ function App() {
     displayActive && updateRange(heroPosition, villainPosition, value);
   }
 
-  // manage state of range pulled from database / edited by user
-  const [range, setRange] = useState(defaultRange);
+  const pushSelectedToRange = useCallback(async (newRange) => {
+    await setRange(newRange);
+  }, []);
 
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
@@ -80,12 +94,14 @@ function App() {
     return () => source.cancel('axios request cancelled');
   }, [selectedRange]);
 
+
+  //CREATE RANGE FUNCTIONALITY
   // load range from db to edit in create range mode
   const handleLoadClick = event => {
     updateRange(heroPosition, villainPosition, facingAction);
   }
 
-  // reset range to empty in create range mode
+  // reset range to empty
   const handleResetClick = event => {
     let resetRange = defaultRange;
     resetRange.heroPos = heroPosition;
@@ -94,6 +110,94 @@ function App() {
     pushSelectedToRange(resetRange);
   }
 
+  //toggle drag to select state
+  const handleMouseUp = () => {
+    setMouseDown(false);
+  }
+
+  //handle changes to input values + toggles
+  const handleFoldClick = event => {
+    setFoldPicker(prevCheck => !prevCheck);
+  }
+
+  const handleCallClick = event => {
+    setCallPicker(prevCheck => !prevCheck);
+  }
+
+  const handleRaiseClick = event => {
+    setRaisePicker(prevCheck => !prevCheck);
+  }
+
+  const handleFreqChange = (event, index) => {
+    const newFreq = event.target.value;
+    let newArr = [...freqPicker];
+    newArr[index] = newFreq;
+    setFreqPicker(newArr);
+  }
+
+  const handleSizeChange = (event, index) => {
+    const newSize = event.target.value;
+    let newArr = [...sizePicker];
+    newArr[index] = newSize;
+    setSizePicker(newArr);
+  }
+
+  // validate combo input, then set new values
+  const handleFreqInput = combo => {
+    if (!foldPicker & !callPicker & !raisePicker) {
+      return MySwal.fire(<div>No Action Selected</div>)
+        .then(setMouseDown(false));
+    }
+    const freqPickerToNum = freqPicker.map(x => {
+      return parseInt(x || 0);
+    });
+    const sizePickerToNum = sizePicker.map(x => {
+      return parseFloat(x || 0);
+    })
+    if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
+      return MySwal.fire(<div>No Frequency Selected</div>)
+        .then(setMouseDown(false));
+    }
+    if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
+      return MySwal.fire(<div>Total Frequency Greater Than 100</div>)
+        .then(setMouseDown(false));
+    }
+
+    const raiseArray = freqPickerToNum.slice(2);
+    const thisCombo = cloneDeep(range.betRange[combo]);
+
+    foldPicker ?
+      thisCombo.foldFreq = freqPickerToNum[0] || 0 :
+      thisCombo.foldFreq = 0;
+
+    callPicker ? thisCombo.callFreq = freqPickerToNum[1] || 0 :
+      thisCombo.callFreq = 0;
+
+    if (raisePicker) {
+      thisCombo.raise = [{freq: 0, size: 0}];
+      raiseArray.forEach(async (element, index) => {
+        if (raiseArray[index] !== 0) {
+          return thisCombo.raise[index] = {freq: raiseArray[index], size: sizePickerToNum[index]};
+        }
+      })
+    } else {
+      thisCombo.raise = [{freq: 0, size: 0}]
+    }
+
+    //reset combo if exact match
+    if (compareObjects(thisCombo, range.betRange[combo])) {
+      thisCombo.foldFreq = 0;
+      thisCombo.callFreq = 0;
+      thisCombo.raise = {freq: 0, size:0}
+    }
+
+    const newRange = cloneDeep(range);
+    newRange.betRange[combo] = thisCombo;
+    setRenderTrigger(prevState => !prevState);
+    pushSelectedToRange(newRange);
+  }
+
+  // popup + validation + POST workflow on submitting new range
   const handleSubmitClick = () => {
     MySwal.fire({
       title: 'Enter password to post range',
@@ -176,127 +280,12 @@ function App() {
     return () => source.cancel('axios request cancelled');
   }
 
-  const pushSelectedToRange = useCallback(async (newRange) => {
-    await setRange(newRange);
-  }, []);
-
+  // initial render on page load or on change
   useEffect(() => {
     getRange()
   }, [getRange, pushSelectedToRange]);
 
-
-  // manage state state of frequency buttons when creating new range
-  const [foldPicker, setFoldPicker] = useState(false);
-  const [callPicker, setCallPicker] = useState(false);
-  const [raisePicker, setRaisePicker] = useState(false);
-  const [freqPicker, setFreqPicker] = useState([100,0,0,0,0,0]);
-  const [sizePicker, setSizePicker] = useState([3,0,0,0]);
-  const [renderTrigger, setRenderTrigger] = useState(false);
-  const [isMouseDown, setMouseDown] = useState(false);
-
-
-  const handleFoldClick = event => {
-    setFoldPicker(prevCheck => !prevCheck);
-  }
-
-  const handleCallClick = event => {
-    setCallPicker(prevCheck => !prevCheck);
-  }
-
-  const handleRaiseClick = event => {
-    setRaisePicker(prevCheck => !prevCheck);
-  }
-
-  const handleFreqChange = (event, index) => {
-    const newFreq = event.target.value;
-    let newArr = [...freqPicker];
-    newArr[index] = newFreq;
-    setFreqPicker(newArr);
-  }
-
-  const handleSizeChange = (event, index) => {
-    const newSize = event.target.value;
-    let newArr = [...sizePicker];
-    newArr[index] = newSize;
-    setSizePicker(newArr);
-  }
-
-  const handleFreqInput = combo => {
-    if (!foldPicker & !callPicker & !raisePicker) {
-      return MySwal.fire(<div>No Action Selected</div>)
-        .then(setMouseDown(false));
-    }
-    const freqPickerToNum = freqPicker.map(x => {
-      return parseInt(x || 0);
-    });
-    const sizePickerToNum = sizePicker.map(x => {
-      return parseFloat(x || 0);
-    })
-    if (freqPickerToNum.reduce((a,b) => a+b) === 0) {
-      return MySwal.fire(<div>No Frequency Selected</div>)
-        .then(setMouseDown(false));
-    }
-    if (freqPickerToNum.reduce((a,b) => a+b) > 100) {
-      return MySwal.fire(<div>Total Frequency Greater Than 100</div>)
-        .then(setMouseDown(false));
-    }
-    const raiseArray = freqPickerToNum.slice(2);
-    const thisCombo = cloneDeep(range.betRange[combo]);
-    foldPicker ?
-      thisCombo.foldFreq = freqPickerToNum[0] || 0 :
-      thisCombo.foldFreq = 0;
-    callPicker ? thisCombo.callFreq = freqPickerToNum[1] || 0 :
-      thisCombo.callFreq = 0;
-    if (raisePicker) {
-      thisCombo.raise = [{freq: 0, size: 0}];
-      raiseArray.forEach(async (element, index) => {
-        if (raiseArray[index] !== 0) {
-          return thisCombo.raise[index] = {freq: raiseArray[index], size: sizePickerToNum[index]};
-        }
-      })
-    } else {
-      thisCombo.raise = [{freq: 0, size: 0}]
-    }
-
-
-    const compareObjects = (a, b) => {
-      if (a === b) return true;
-
-      if (typeof a != 'object' || typeof b != 'object' || a == null || b == null) return false;
-
-      let keysA = Object.keys(a), keysB = Object.keys(b);
-
-      if (keysA.length != keysB.length) return false;
-
-      for (let key of keysA) {
-        if (!keysB.includes(key)) return false;
-
-        if (typeof a[key] === 'function' || typeof b[key] === 'function') {
-          if (a[key].toString() != b[key].toString()) return false;
-        } else {
-          if (!compareObjects(a[key], b[key])) return false;
-        }
-      }
-
-      return true;
-    }
-
-    if (compareObjects(thisCombo, range.betRange[combo])) {
-      thisCombo.foldFreq = 0;
-      thisCombo.callFreq = 0;
-      thisCombo.raise = {freq: 0, size:0}
-    }
-
-    const newRange = cloneDeep(range);
-    newRange.betRange[combo] = thisCombo;
-    setRenderTrigger(prevState => !prevState);
-    pushSelectedToRange(newRange);
-  }
-
-  const handleMouseUp = () => {
-    setMouseDown(false);
-  }
-
+  //top-level component and props
   return (
     <MainContainer onMouseUp={handleMouseUp}>
       <AppRow>
