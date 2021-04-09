@@ -25,8 +25,8 @@ function App() {
   //manage state of radio buttons to select range scenario
   const [heroPosition, setHeroPosition] = useState('BB');
   const [villainPosition, setVillainPosition] = useState('BTN');
-  const [facingAction, setFacingAction] = useState('N/A');
-  const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'N/A']);
+  const [facingAction, setFacingAction] = useState('RAISE');
+  const [selectedRange, setSelectedRange] = useState(['BB', 'BTN', 'RAISE']);
 
   // manage state of range pulled from database / edited by user
   const [range, setRange] = useState(defaultRange);
@@ -74,10 +74,12 @@ function App() {
     await setRange(newRange);
   }, []);
 
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://evanmoses.com/realtimepre/backend';
+
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.get('https://evanmoses.com/realtimepre/backend/ranges', {params: {
+      const response = await axios.get(`${API_ENDPOINT}/ranges`, {params: {
         heroPos : selectedRange[0],
         vilPos : selectedRange[1],
         facing: selectedRange[2],
@@ -218,7 +220,7 @@ function App() {
   const checkForRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.get('https://evanmoses.com/realtimepre/backend/ranges', {params: {
+      const response = await axios.get(`${API_ENDPOINT}/ranges`, {params: {
         heroPos : heroPosition,
         vilPos : villainPosition,
         facing: facingAction,
@@ -252,7 +254,7 @@ function App() {
   const postRange = async () => {
     const source = axios.CancelToken.source();
     try {
-      const response = await axios.post('https://evanmoses.com/realtimepre/backend/ranges', {
+      const response = await axios.post(`${API_ENDPOINT}/ranges`, {
         heroPos: heroPosition,
         vilPos: villainPosition,
         facing: facingAction,
