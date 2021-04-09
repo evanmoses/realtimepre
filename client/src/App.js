@@ -12,6 +12,7 @@ import AlertModal from './lib/AlertModal.js';
 import './lib/AlertModal.scss';
 import defaultRange from './lib/combos.jsx';
 import compareObjects from './lib/compareObjects.js';
+import { config } from './lib/constants.js'
 
 const MySwal = withReactContent(AlertModal);
 
@@ -74,7 +75,7 @@ function App() {
     await setRange(newRange);
   }, []);
 
-  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://evanmoses.com/realtimepre/backend';
+  const API_ENDPOINT = config.url.API_URL;
 
   const getRange = useCallback(async () => {
     const source = axios.CancelToken.source();
